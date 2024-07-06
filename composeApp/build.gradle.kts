@@ -1,8 +1,14 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.nio.file.Files
+import java.nio.file.Paths
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -79,6 +85,23 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
+
+//    sourceSets["main"].withConvention(KotlinSourceSet::class) {
+////        kotlin.include("**/myTests/*.kt")
+//        kotlin.exclude("org/test/testkmp/ui")
+//    }
+
+//    sourceSets["main"] {
+////        main {
+//            java {
+//                srcDirs("src/main/java", "src/main/kotlin")
+//                exclude("**/ExcludedFile.kt", "**/excludedDirectory/**")
+//            }
+////        }
+//    }
+
+//    sourceSets["main"].kotlin.srcDirs()
+
     defaultConfig {
         applicationId = "org.test.testkmp"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -106,6 +129,7 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+
 }
 
 compose.desktop {
@@ -119,3 +143,75 @@ compose.desktop {
         }
     }
 }
+
+
+
+//tasks.withType<Copy> {
+//    exclude("org/test/testkmp/ui/**")
+//}
+
+//tasks.withType(KotlinCompile::class.java).configureEach {
+//    this.exclude("org/test/testkmp/ui/Components2.kt")
+//}
+//
+tasks.withType<KotlinCompile> {
+    exclude("org/test/testkmp/ui/**")
+}
+
+
+tasks.register("copyAndModifyFiles") {
+    doLast {
+        val projectDir = projectDir.toPath()
+        val sourcePath = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/ui/Components.kt")
+//        val sourcePath = Paths.get("src/androidMain/kotlin/org/test/testkmp/ui/Components.kt")
+        val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
+        val destinationPath = destinationDir.resolve("Components.kt")
+
+//        if (Files.exists(sourcePath)) {
+            // Ensure the destination directory exists
+            Files.createDirectories(destinationDir)
+
+            // Read the source file
+            val content = Files.readAllLines(sourcePath).joinToString("\n")
+
+            // Modify the content
+            val modifiedContent = content
+                .replace("package org.test.testkmp.ui","package ui")
+                .replace("import androidx.compose.ui.tooling.preview.Preview", "")
+                .replace("@Preview", "")
+
+            // Write the modified content to the destination file
+            Files.write(destinationPath, modifiedContent.toByteArray())
+            println("File copied and modified successfully")
+//        } else {
+//            println("Source file does not exist: $sourcePath")
+//        }
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("copyAndModifyFiles")
+}
+
+
+//tasks.register<Copy>("copyFiles") {
+//    from("src/androidMain/kotlin/org/test/testkmp/ui")
+//    into("src/commonMain/kotlin/ui")
+//
+//    doFirst {
+//        println("Starting to copy files from src/main/kotlin/org/test/testkmp/ui to src/main/kotlin/org/test/testkmp/uiwithcopy")
+//    }
+//    doLast {
+//        println("Finished copying files")
+//    }
+//}
+
+//tasks.named("preBuild") {
+//    dependsOn("copyFiles")
+//}
+
+
+
+
+
+
