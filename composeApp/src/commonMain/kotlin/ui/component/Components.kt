@@ -1,4 +1,4 @@
-package ui
+package ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,7 +24,7 @@ fun SampleBox() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Hello World!!!",
+            text = "Hello World!!",
             fontSize = 24.sp
         )
     }

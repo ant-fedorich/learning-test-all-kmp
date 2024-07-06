@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.file.Files
 import java.nio.file.Paths
+import kotlin.io.path.isRegularFile
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -162,27 +163,49 @@ tasks.withType<KotlinCompile> {
 tasks.register("copyAndModifyFiles") {
     doLast {
         val projectDir = projectDir.toPath()
-        val sourcePath = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview/Components.kt")
-//        val sourcePath = Paths.get("src/androidMain/kotlin/org/test/testkmp/ui/Components.kt")
+        val sourceDir = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview")
         val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
-        val destinationPath = destinationDir.resolve("Components.kt")
+
+        println("Source Dir: $sourceDir")
+        println("Destination Dir: $destinationDir")
 
 //        if (Files.exists(sourcePath)) {
             // Ensure the destination directory exists
-            Files.createDirectories(destinationDir)
+
+        Files.createDirectories(destinationDir)
+        Files.walk(sourceDir).use { paths ->
+            val files = paths.filter { Files.isRegularFile(it) && it.toString().endsWith(".kt") }
+            files.forEach { sourcePath ->
+                val relativePath = sourceDir.relativize(sourcePath)
+                val destinationPath = destinationDir.resolve(relativePath)
+
+                Files.createDirectories(destinationPath.parent)
+
+                val content = Files.readAllLines(sourcePath).joinToString("\n")
+                val modifiedContent = content
+                    .replace("package org.test.testkmp.uipreview","package ui")
+                    .replace("import androidx.compose.ui.tooling.preview.Preview", "")
+                    .replace("import org.test.testkmp.uipreview", "import ui")
+                    .replace("@Preview", "")
+
+                Files.write(destinationPath, modifiedContent.toByteArray())
+
+                println("Copied and modified file: $sourcePath to $destinationPath")
+            }
+        }
 
             // Read the source file
-            val content = Files.readAllLines(sourcePath).joinToString("\n")
-
+//            val content = Files.readAllLines(sourceDir).joinToString("\n")
+//
             // Modify the content
-            val modifiedContent = content
-                .replace("package org.test.testkmp.uipreview","package ui")
-                .replace("import androidx.compose.ui.tooling.preview.Preview", "")
-                .replace("@Preview", "")
-
-            // Write the modified content to the destination file
-            Files.write(destinationPath, modifiedContent.toByteArray())
-            println("File copied and modified successfully")
+//            val modifiedContent = content
+//                .replace("package org.test.testkmp.uipreview","package ui")
+//                .replace("import androidx.compose.ui.tooling.preview.Preview", "")
+//                .replace("@Preview", "")
+//
+//            // Write the modified content to the destination file
+//            Files.write(destinationPath, modifiedContent.toByteArray())
+//            println("File copied and modified successfully")
 //        } else {
 //            println("Source file does not exist: $sourcePath")
 //        }
