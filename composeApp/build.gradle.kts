@@ -155,14 +155,14 @@ compose.desktop {
 //}
 //
 tasks.withType<KotlinCompile> {
-    exclude("org/test/testkmp/ui/**")
+    exclude("org/test/testkmp/uipreview/**")
 }
 
 
 tasks.register("copyAndModifyFiles") {
     doLast {
         val projectDir = projectDir.toPath()
-        val sourcePath = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/ui/Components.kt")
+        val sourcePath = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview/Components.kt")
 //        val sourcePath = Paths.get("src/androidMain/kotlin/org/test/testkmp/ui/Components.kt")
         val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
         val destinationPath = destinationDir.resolve("Components.kt")
@@ -176,7 +176,7 @@ tasks.register("copyAndModifyFiles") {
 
             // Modify the content
             val modifiedContent = content
-                .replace("package org.test.testkmp.ui","package ui")
+                .replace("package org.test.testkmp.uipreview","package ui")
                 .replace("import androidx.compose.ui.tooling.preview.Preview", "")
                 .replace("@Preview", "")
 

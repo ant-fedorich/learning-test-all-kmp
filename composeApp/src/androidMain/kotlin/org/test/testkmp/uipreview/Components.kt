@@ -1,4 +1,4 @@
-package org.test.testkmp.ui
+package org.test.testkmp.uipreview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.sp
 fun SampleBox() {
     Box(
         modifier = Modifier
-            .size(200.dp)
-            .background(Color.Yellow)
-            .padding(16.dp),
+            .size(300.dp)
+            .background(Color.Red)
+            .padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Hello World!",
+            text = "Hello World",
             fontSize = 24.sp
         )
     }
