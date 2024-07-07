@@ -17,5 +17,44 @@ struct ContentView: View {
     }
 }
 
+//
+////added
+//class ComposeUIViewController: UIViewController {
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        let composeView = ComposeView()
+//        composeView.setContent {
+//            CommonButton(text: "Click Me", onClick = {
+//                // Handle button click
+//            })
+//        }
+//
+//        view = composeView
+//    }
+//}
+//
+//
+////Added
+//@UIApplicationMain
+//class AppDelegate: UIResponder, UIApplicationDelegate {
+//
+//    var window: UIWindow?
+//
+//    func application(
+//        _ application: UIApplication,
+//        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+//    ) -> Bool {
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//
+//        let composeViewController = ComposeUIViewController()
+//
+//        window?.rootViewController = composeViewController
+//        window?.makeKeyAndVisible()
+//
+//        return true
+//    }
+//}
+
 
 

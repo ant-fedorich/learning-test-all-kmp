@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +46,12 @@ fun MainScreen() {
             Spacer(modifier = Modifier.size(12.dp))
             Text(text = "Hello")
             SampleBox()
+            Button(
+                onClick = {}
+            ) {
+                Text("Click me")
+            }
+            TextField("value", {})
         }
     }
 }

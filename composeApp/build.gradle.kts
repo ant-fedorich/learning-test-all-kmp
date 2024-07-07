@@ -45,6 +45,7 @@ kotlin {
     }
     
     jvm("desktop")
+
     
     listOf(
         iosX64(),
@@ -72,16 +73,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
-
-            //Android
-
-            // Conditionally include Compose preview for Android only
-            if (isAndroid()) {
-                implementation(compose.preview)
-            }
-//            implementation(compose.preview)
-//            implementation(libs.androidx.activity.compose)
-
         }
 
         iosMain.dependencies {
@@ -90,6 +81,11 @@ kotlin {
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
         }
     }
 }
@@ -154,6 +150,8 @@ android {
 
 }
 
+
+
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -165,6 +163,12 @@ compose.desktop {
         }
     }
 }
+
+//tasks.register<JavaExec>("run") {
+//    group = "application"
+////    main = "MainKt"
+//    classpath = sourceSets["main"].runtimeClasspath
+//}
 
 
 

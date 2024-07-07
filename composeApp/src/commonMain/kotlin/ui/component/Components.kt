@@ -2,6 +2,8 @@ package ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
@@ -19,7 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun SampleBox() {
     Box(
         modifier = Modifier
-            .size(300.dp)
+            .height(60.dp).fillMaxWidth()
             .background(Color.Red)
             .padding(20.dp),
         contentAlignment = Alignment.Center
@@ -32,8 +34,36 @@ fun SampleBox() {
 }
 
 
-@org.jetbrains.compose.ui.tooling.preview.Preview
+@Preview
 @Composable
 private fun Preview() {
     SampleBox()
 }
+
+
+//// commonMain module
+//@Composable
+//fun CommonButton(text: String, onClick: () -> Unit) {
+//    PlatformButton(text, onClick)
+//}
+
+//// iosMain module
+//@Composable
+//fun PlatformButton(text: String, onClick: () -> Unit) {
+//    UIKitButton(
+//        text = text,
+//        onClick = onClick
+//    )
+//}
+
+//// In your iOS code, you need to implement the UIKitButton composable
+//@Composable
+//fun UIKitButton(text: String, onClick: () -> Unit) {
+//    val button = UIButton()
+//    button.setTitle(text, UIControlStateNormal)
+//    button.setOnTouchUpInside {
+//        onClick()
+//    }
+//    // Use UIKit to wrap the UIKitButton into a Compose view
+//    UIViewWrapper(button)
+//}

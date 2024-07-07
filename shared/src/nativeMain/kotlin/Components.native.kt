@@ -1,0 +1,1 @@
+actual class MyText actual constructor(text: String)
