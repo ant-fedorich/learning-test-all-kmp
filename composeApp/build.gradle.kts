@@ -3,6 +3,7 @@ import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
@@ -71,11 +72,31 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
+
+            //Android
+
+            // Conditionally include Compose preview for Android only
+            if (isAndroid()) {
+                implementation(compose.preview)
+            }
+//            implementation(compose.preview)
+//            implementation(libs.androidx.activity.compose)
+
         }
+
+        iosMain.dependencies {
+
+        }
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
     }
+}
+
+// Helper function to determine if the current platform is Android
+fun Project.isAndroid(): Boolean {
+    return this.extensions.findByType<KotlinMultiplatformExtension>()?.targets?.any { it.platformType.name == "android" } ?: false
 }
 
 android {
@@ -160,77 +181,44 @@ tasks.withType<KotlinCompile> {
 }
 
 
-tasks.register("copyAndModifyFiles") {
-    doLast {
-        val projectDir = projectDir.toPath()
-        val sourceDir = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview")
-        val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
-
-        println("Source Dir: $sourceDir")
-        println("Destination Dir: $destinationDir")
-
-//        if (Files.exists(sourcePath)) {
-            // Ensure the destination directory exists
-
-        Files.createDirectories(destinationDir)
-        Files.walk(sourceDir).use { paths ->
-            val files = paths.filter { Files.isRegularFile(it) && it.toString().endsWith(".kt") }
-            files.forEach { sourcePath ->
-                val relativePath = sourceDir.relativize(sourcePath)
-                val destinationPath = destinationDir.resolve(relativePath)
-
-                Files.createDirectories(destinationPath.parent)
-
-                val content = Files.readAllLines(sourcePath).joinToString("\n")
-                val modifiedContent = content
-                    .replace("package org.test.testkmp.uipreview","package ui")
-                    .replace("import androidx.compose.ui.tooling.preview.Preview", "")
-                    .replace("import org.test.testkmp.uipreview", "import ui")
-                    .replace("@Preview", "")
-
-                Files.write(destinationPath, modifiedContent.toByteArray())
-
-                println("Copied and modified file: $sourcePath to $destinationPath")
-            }
-        }
-
-            // Read the source file
-//            val content = Files.readAllLines(sourceDir).joinToString("\n")
-//
-            // Modify the content
-//            val modifiedContent = content
-//                .replace("package org.test.testkmp.uipreview","package ui")
-//                .replace("import androidx.compose.ui.tooling.preview.Preview", "")
-//                .replace("@Preview", "")
-//
-//            // Write the modified content to the destination file
-//            Files.write(destinationPath, modifiedContent.toByteArray())
-//            println("File copied and modified successfully")
-//        } else {
-//            println("Source file does not exist: $sourcePath")
-//        }
-    }
-}
-
-tasks.named("preBuild") {
-    dependsOn("copyAndModifyFiles")
-}
-
-
-//tasks.register<Copy>("copyFiles") {
-//    from("src/androidMain/kotlin/org/test/testkmp/ui")
-//    into("src/commonMain/kotlin/ui")
-//
-//    doFirst {
-//        println("Starting to copy files from src/main/kotlin/org/test/testkmp/ui to src/main/kotlin/org/test/testkmp/uiwithcopy")
-//    }
+//tasks.register("copyAndModifyFiles") {
 //    doLast {
-//        println("Finished copying files")
+//        val projectDir = projectDir.toPath()
+//        val sourceDir = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview")
+//        val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
+//
+//        println("Source Dir: $sourceDir")
+//        println("Destination Dir: $destinationDir")
+//
+////        if (Files.exists(sourcePath)) {
+//            // Ensure the destination directory exists
+//
+//        Files.createDirectories(destinationDir)
+//        Files.walk(sourceDir).use { paths ->
+//            val files = paths.filter { Files.isRegularFile(it) && it.toString().endsWith(".kt") }
+//            files.forEach { sourcePath ->
+//                val relativePath = sourceDir.relativize(sourcePath)
+//                val destinationPath = destinationDir.resolve(relativePath)
+//
+//                Files.createDirectories(destinationPath.parent)
+//
+//                val content = Files.readAllLines(sourcePath).joinToString("\n")
+//                val modifiedContent = content
+//                    .replace("package org.test.testkmp.uipreview","package ui")
+//                    .replace("import androidx.compose.ui.tooling.preview.Preview", "")
+//                    .replace("import org.test.testkmp.uipreview", "import ui")
+//                    .replace("@Preview", "")
+//
+//                Files.write(destinationPath, modifiedContent.toByteArray())
+//
+//                println("Copied and modified file: $sourcePath to $destinationPath")
+//            }
+//        }
 //    }
 //}
-
+//
 //tasks.named("preBuild") {
-//    dependsOn("copyFiles")
+//    dependsOn("copyAndModifyFiles")
 //}
 
 

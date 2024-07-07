@@ -24,7 +24,7 @@ fun SampleBox() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Hello World!!",
+            text = "Hello World",
             fontSize = 24.sp
         )
     }
@@ -32,6 +32,6 @@ fun SampleBox() {
 
 @Preview
 @Composable
-fun Preview() {
+private fun Preview() {
     SampleBox()
 }

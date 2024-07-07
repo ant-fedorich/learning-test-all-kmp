@@ -6,6 +6,7 @@ plugins {
 
 group = "org.test.testkmp"
 version = "1.0.0"
+
 application {
     mainClass.set("org.test.testkmp.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")

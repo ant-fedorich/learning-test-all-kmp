@@ -18,7 +18,6 @@ import testkmp.composeapp.generated.resources.Res
 import testkmp.composeapp.generated.resources.compose_multiplatform
 
 @Composable
-
 fun App() {
     MaterialTheme {
         MainScreen()
