@@ -23,7 +23,7 @@ fun SampleBox() {
         modifier = Modifier
             .height(60.dp).fillMaxWidth()
             .background(Color.Red)
-            .padding(20.dp),
+            .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

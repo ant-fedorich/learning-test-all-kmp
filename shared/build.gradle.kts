@@ -56,5 +56,5 @@ android {
 }
 dependencies {
     implementation(libs.androidx.material3.android)
-    implementation(libs.androidx.material3.desktop)
+//    implementation(libs.androidx.material3.desktop)
 }

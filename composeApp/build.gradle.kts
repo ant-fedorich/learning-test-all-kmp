@@ -44,7 +44,7 @@ kotlin {
         }
     }
     
-    jvm("desktop")
+//    jvm("desktop")
 
     
     listOf(
@@ -59,7 +59,7 @@ kotlin {
     }
     
     sourceSets {
-        val desktopMain by getting
+//        val desktopMain by getting
         
         androidMain.dependencies {
             implementation(compose.preview)
@@ -79,13 +79,13 @@ kotlin {
 
         }
 
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
-        }
+//        desktopMain.dependencies {
+//            implementation(compose.desktop.currentOs)
+////            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
+//        }
         jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
+//            implementation(compose.desktop.currentOs)
+//            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
         }
     }
 }
@@ -170,8 +170,6 @@ compose.desktop {
 //    classpath = sourceSets["main"].runtimeClasspath
 //}
 
-
-
 //tasks.withType<Copy> {
 //    exclude("org/test/testkmp/ui/**")
 //}
@@ -180,10 +178,9 @@ compose.desktop {
 //    this.exclude("org/test/testkmp/ui/Components2.kt")
 //}
 //
-tasks.withType<KotlinCompile> {
-    exclude("org/test/testkmp/uipreview/**")
-}
-
+//tasks.withType<KotlinCompile> {
+//    exclude("org/test/testkmp/uipreview/**")
+//}
 
 //tasks.register("copyAndModifyFiles") {
 //    doLast {
