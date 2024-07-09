@@ -67,6 +67,7 @@ dependencies {
 //    implementation(libs.androidx.material3.desktop)
 }
 
+/*
 tasks.register("copyAndModifyIOSFiles") {
     doLast {
         val projectDir = projectDir.toPath()
@@ -105,14 +106,16 @@ tasks.register("copyAndModifyIOSFiles") {
 
                 val content = Files.readAllLines(sourcePath).joinToString("\n")
 
-                /**
+                */
+/**
                  * +rename to TestShared.ios.kt
                  * + delete androidx.compose.ui.tooling.preview.Preview
                  * + delete @Preview
                  * +delete package org.test.testkmp.previewios
                  * + add actual
                  * + rename to MainScreenShared
-                 * */
+                 * *//*
+
 
                 val modifiedContent = content
                     .replace("import androidx.compose.ui.tooling.preview.Preview", "")
@@ -131,3 +134,4 @@ tasks.register("copyAndModifyIOSFiles") {
 tasks.named("preBuild") {
     dependsOn("copyAndModifyIOSFiles")
 }
+*/

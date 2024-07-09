@@ -1,5 +1,6 @@
 package ui.screen
 
+import ComButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,12 +48,18 @@ fun MainScreen() {
             )
             Spacer(modifier = Modifier.size(12.dp))
             SampleBox()
-            Button(
+//            Button(
+//                modifier = Modifier.fillMaxWidth(),
+//                onClick = {}
+//            ) {
+//                Text("Click me")
+//            }
+
+            ComButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {}
-            ) {
-                Text("Click me")
-            }
+                onClick = {},
+                text = "Click me"
+            )
             TextField(
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 value = "value",

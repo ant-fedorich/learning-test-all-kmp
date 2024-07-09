@@ -1,6 +1,5 @@
 package component
 
-import MyButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.UIKitView
@@ -24,11 +23,6 @@ import platform.UIKit.UIViewController
 //    }
 //}
 
-
-@Composable
-fun IOSButton() {
-    MyButton("Hello", {})
-}
 
 //// iosMain module
 //@Composable

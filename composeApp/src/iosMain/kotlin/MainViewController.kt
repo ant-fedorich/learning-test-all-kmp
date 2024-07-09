@@ -6,16 +6,6 @@ fun MainViewController() = ComposeUIViewController {
     MaterialTheme {
         MainScreenShared()
     }
-
-//    MyButton("Test") {
-//
-//    }
-    getPlatform()
-    IOSPlatform().name
-
-    getPlatform().name
-
-    IOSClass()
 }
 
 

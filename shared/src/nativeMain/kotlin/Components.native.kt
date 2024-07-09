@@ -1,1 +1,2 @@
-actual class MyText actual constructor(text: String)
+import androidx.compose.ui.Modifier
+

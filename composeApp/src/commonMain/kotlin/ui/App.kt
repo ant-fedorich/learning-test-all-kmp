@@ -22,7 +22,5 @@ import testkmp.composeapp.generated.resources.compose_multiplatform
 fun App() {
     MaterialTheme {
         MainScreen()
-        //MainScreenIOS2()
-        getPlatform()
     }
 }

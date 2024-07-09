@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-           MainScreenShared()
+           MainScreen()
         }
     }
 }
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    MainScreenShared()
+    MainScreen()
 }
 
 
