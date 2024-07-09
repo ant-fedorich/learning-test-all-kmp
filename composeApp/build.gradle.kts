@@ -66,13 +66,13 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            implementation(projects.shared)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(projects.shared)
         }
 
         iosMain.dependencies {
@@ -102,23 +102,6 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-
-//    sourceSets["main"].withConvention(KotlinSourceSet::class) {
-////        kotlin.include("**/myTests/*.kt")
-//        kotlin.exclude("org/test/testkmp/ui")
-//    }
-
-//    sourceSets["main"] {
-////        main {
-//            java {
-//                srcDirs("src/main/java", "src/main/kotlin")
-//                exclude("**/ExcludedFile.kt", "**/excludedDirectory/**")
-//            }
-////        }
-//    }
-
-//    sourceSets["main"].kotlin.srcDirs()
 
     defaultConfig {
         applicationId = "org.test.testkmp"
@@ -151,7 +134,6 @@ android {
 }
 
 
-
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -164,30 +146,23 @@ compose.desktop {
     }
 }
 
-//tasks.register<JavaExec>("run") {
-//    group = "application"
-////    main = "MainKt"
-//    classpath = sourceSets["main"].runtimeClasspath
-//}
+tasks.withType<KotlinCompile> {
+    exclude("org/test/testkmp/previewios/**")
+}
 
-//tasks.withType<Copy> {
-//    exclude("org/test/testkmp/ui/**")
-//}
 
-//tasks.withType(KotlinCompile::class.java).configureEach {
-//    this.exclude("org/test/testkmp/ui/Components2.kt")
-//}
-//
-//tasks.withType<KotlinCompile> {
-//    exclude("org/test/testkmp/uipreview/**")
-//}
-
-//tasks.register("copyAndModifyFiles") {
+//tasks.register("copyAndModifyIOSFiles") {
 //    doLast {
 //        val projectDir = projectDir.toPath()
-//        val sourceDir = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/uipreview")
-//        val destinationDir = projectDir.resolve("src/commonMain/kotlin/ui")
+//        val sourceDir = projectDir.resolve("src/androidMain/kotlin/org/test/testkmp/previewios")
+//        val destinationDirOld = projectDir.resolve("src/commonMain/kotlin")
+//        val destinationDir = projectDir.resolve("/Users/eltonio/Documents/AndroidProjects/Learning/Test-all-kmp/shared/src/iosMain/kotlin")
 //
+//
+//
+//
+////        val projectDir = projectDir.toPath()
+//        println("Project Dir: $projectDir")
 //        println("Source Dir: $sourceDir")
 //        println("Destination Dir: $destinationDir")
 //
@@ -199,16 +174,34 @@ compose.desktop {
 //            val files = paths.filter { Files.isRegularFile(it) && it.toString().endsWith(".kt") }
 //            files.forEach { sourcePath ->
 //                val relativePath = sourceDir.relativize(sourcePath)
-//                val destinationPath = destinationDir.resolve(relativePath)
+//                // Define the new filename dynamically excluding ".kt"
+//                val originalFileName = sourcePath.fileName.toString()
+//                val fileNameWithoutExtension = originalFileName.substringBeforeLast(".")
+//                val fileExtension = originalFileName.substringAfterLast(".", "")
+//                val newFileNameWithoutExtension = fileNameWithoutExtension.replace("ScreenIOSPreview", "TestShared.ios")
+//                val newFileName = "$newFileNameWithoutExtension.$fileExtension"
+//
+//                val destinationPath = destinationDir.resolve(newFileName)
+//
 //
 //                Files.createDirectories(destinationPath.parent)
 //
 //                val content = Files.readAllLines(sourcePath).joinToString("\n")
+//
+//                /**
+//                 * +rename to TestShared.ios.kt
+//                 * + delete androidx.compose.ui.tooling.preview.Preview
+//                 * + delete @Preview
+//                 * +delete package org.test.testkmp.previewios
+//                 * + add actual
+//                 * + rename to MainScreenShared
+//                 * */
+//
 //                val modifiedContent = content
-//                    .replace("package org.test.testkmp.uipreview","package ui")
 //                    .replace("import androidx.compose.ui.tooling.preview.Preview", "")
-//                    .replace("import org.test.testkmp.uipreview", "import ui")
 //                    .replace("@Preview", "")
+//                    .replace("package org.test.testkmp.previewios","")
+//                    .replace("fun MainScreenIOS()","actual fun MainScreenShared()")
 //
 //                Files.write(destinationPath, modifiedContent.toByteArray())
 //
@@ -219,7 +212,7 @@ compose.desktop {
 //}
 //
 //tasks.named("preBuild") {
-//    dependsOn("copyAndModifyFiles")
+//    dependsOn("copyAndModifyIOSFiles")
 //}
 
 

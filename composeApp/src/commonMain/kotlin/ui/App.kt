@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import getPlatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.screen.MainScreen
@@ -21,5 +22,7 @@ import testkmp.composeapp.generated.resources.compose_multiplatform
 fun App() {
     MaterialTheme {
         MainScreen()
+        //MainScreenIOS2()
+        getPlatform()
     }
 }

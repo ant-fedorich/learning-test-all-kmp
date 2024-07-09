@@ -1,3 +1,5 @@
+
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,30 +15,33 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.unit.dp
-import ui.component.SampleBox
+import androidx.compose.ui.unit.sp
+
 
 @Composable
-fun MainScreenIOS() {
+actual fun MainScreenShared() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFE8EE))
+            .background(Color(0xFFE0A6A6))
             .padding(16.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(AbsoluteRoundedCornerShape(16.dp))
+                .clip(AbsoluteRoundedCornerShape(46.dp))
                 .background(Color.White)
-                .padding(16.dp)
+                .padding(20.dp)
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Title sOS",
+                text = "Title iOS",
                 fontSize = MaterialTheme.typography.h4.fontSize
             )
             Spacer(modifier = Modifier.size(16.dp))
@@ -44,18 +49,39 @@ fun MainScreenIOS() {
             Spacer(modifier = Modifier.size(16.dp))
 
             Button(
-                modifier = Modifier.fillMaxWidth().height(80.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(90.dp),
                 onClick = {}
             ) {
-                Text("Click this")
+                Text("Click button")
             }
             Spacer(modifier = Modifier.size(16.dp))
 
             TextField(
-                modifier = Modifier.fillMaxWidth().height(50.dp),
-                value = "value",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                value = "type here",
                 onValueChange = {}
             )
         }
+    }
+}
+
+@Composable
+fun SampleBox() {
+    Box(
+        modifier = Modifier
+            .height(60.dp)
+            .fillMaxWidth()
+            .background(Color.Magenta)
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Hello???",
+            fontSize = 24.sp
+        )
     }
 }

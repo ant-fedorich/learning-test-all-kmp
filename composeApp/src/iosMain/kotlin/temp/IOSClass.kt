@@ -1,0 +1,4 @@
+package temp
+
+class IOSClass {
+}
