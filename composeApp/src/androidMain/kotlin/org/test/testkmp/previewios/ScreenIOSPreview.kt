@@ -41,7 +41,7 @@ fun MainScreenIOS() {
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Title iOS",
+                text = "Title iOS!",
                 fontSize = MaterialTheme.typography.h4.fontSize
             )
             Spacer(modifier = Modifier.size(16.dp))

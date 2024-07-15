@@ -51,19 +51,13 @@ fun MainScreen() {
             )
             Spacer(modifier = Modifier.size(12.dp))
             SampleBox()
+            Spacer(Modifier.size(16.dp))
 
             ComButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {},
                 text = "Click me"
             )
-            Spacer(Modifier.size(16.dp))
-            Button(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                onClick = {}
-            ) {
-                Text("Click me")
-            }
             Spacer(Modifier.size(16.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth().height(60.dp),

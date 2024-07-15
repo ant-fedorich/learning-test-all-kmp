@@ -21,6 +21,7 @@ plugins {
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
+
     wasmJs {
         moduleName = "composeApp"
         browser {
@@ -138,9 +139,10 @@ compose.desktop {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    exclude("org/test/testkmp/previewios/**")
-}
+//tasks.withType<KotlinCompile> {
+//    exclude("org/test/testkmp/previewios/**")
+//    exclude("org/test/testkmp/previewweb/**")
+//}
 
 
 //tasks.register("copyAndModifyIOSFiles") {
