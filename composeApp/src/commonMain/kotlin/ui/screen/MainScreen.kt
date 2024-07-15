@@ -23,8 +23,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import testkmp.composeapp.generated.resources.Res
 import ui.component.SampleBox
+import utils.AppConsts
 
 @Composable
 fun MainScreen() {
@@ -43,25 +46,27 @@ fun MainScreen() {
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Title 11111",
+                text = AppConsts.TITLE,
                 fontSize = MaterialTheme.typography.h3.fontSize
             )
             Spacer(modifier = Modifier.size(12.dp))
             SampleBox()
-//            Button(
-//                modifier = Modifier.fillMaxWidth(),
-//                onClick = {}
-//            ) {
-//                Text("Click me")
-//            }
 
             ComButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {},
                 text = "Click me"
             )
+            Spacer(Modifier.size(16.dp))
+            Button(
+                modifier = Modifier.fillMaxWidth().height(100.dp),
+                onClick = {}
+            ) {
+                Text("Click me")
+            }
+            Spacer(Modifier.size(16.dp))
             TextField(
-                modifier = Modifier.fillMaxWidth().height(50.dp),
+                modifier = Modifier.fillMaxWidth().height(60.dp),
                 value = "value",
                 onValueChange = {}
             )

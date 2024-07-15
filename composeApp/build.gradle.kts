@@ -43,8 +43,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-//    jvm("desktop")
 
     
     listOf(
@@ -65,6 +63,11 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
+
+        iosMain.dependencies {
+
+        }
+
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(compose.runtime)
@@ -75,18 +78,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
         }
 
-        iosMain.dependencies {
-
-        }
-
-//        desktopMain.dependencies {
-//            implementation(compose.desktop.currentOs)
-////            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
-//        }
-        jvmMain.dependencies {
-//            implementation(compose.desktop.currentOs)
-//            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
-        }
+        val wasmJsMain by getting
     }
 }
 
