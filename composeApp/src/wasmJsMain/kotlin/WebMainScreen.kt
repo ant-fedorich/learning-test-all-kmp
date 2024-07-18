@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -22,7 +23,7 @@ import ui.component.SampleBox
 import utils.AppConsts
 
 @Composable
-fun WebMainScreen() {
+fun WebMainScreen(titleText: String) {
     Row(
         modifier = Modifier
         .fillMaxSize()
@@ -34,17 +35,10 @@ fun WebMainScreen() {
             modifier = Modifier.weight(1f)
         ) {
             ComButton(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {},
-                text = "Click me!!"
+                text = "Click me!"
             )
-//            Button(
-//                modifier = Modifier,
-//                onClick = {},
-//            ) {
-//                Text(text = "Click me!!")
-//
-//            }
             Spacer(Modifier.size(16.dp))
             TextField(
                 modifier = Modifier
@@ -68,6 +62,7 @@ fun WebMainScreen() {
                 .fillMaxHeight() // Ensures it fills the available height
                 .padding(8.dp)
         ) {
+            SelectionContainer {
                 Column(
                     modifier = Modifier
                         .clip(AbsoluteRoundedCornerShape(16.dp))
@@ -76,13 +71,14 @@ fun WebMainScreen() {
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = AppConsts.TITLE,
+                        text = titleText,
                         fontSize = MaterialTheme.typography.h3.fontSize
                     )
                     Spacer(modifier = Modifier.size(12.dp))
                     SampleBox()
                     Spacer(Modifier.size(16.dp))
                 }
+            }
         }
     }
 }

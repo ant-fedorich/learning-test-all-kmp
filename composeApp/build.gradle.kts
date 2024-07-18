@@ -37,6 +37,10 @@ kotlin {
         }
         binaries.executable()
     }
+
+//    js {
+//
+//    }
     
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -80,6 +84,10 @@ kotlin {
         }
 
         val wasmJsMain by getting
+
+//        jsMain.dependencies {
+//
+//        }
     }
 }
 
