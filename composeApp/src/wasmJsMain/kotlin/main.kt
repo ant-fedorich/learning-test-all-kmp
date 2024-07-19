@@ -12,39 +12,15 @@ import ui.App
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     var titleText by mutableStateOf("Initial Title")
-//    var titleText = ""
 
-
-
-
-    val menu = ContextMenu()
-    menu.addMenuItem("Option 1") {
-        titleText = "Option 1"
-//        window.asDynamic().console.log("Option 1 selected")
-    }
-    menu.addMenuItem("Option 2") {
-        titleText = "Option 2"
-//        window.asDynamic().console.log("Option 2 selected")
-    }
-    menu.addMenuItem("Option 3") {
-        titleText = "Option 3"
-//        window.asDynamic().console.log("Option 3 selected")
-    }
-
-
-
-//    // After the WebMainScreen is composed, we add the ContextMenu to the body
-//    document.addEventListener("DOMContentLoaded") {
-//        val body = document.body!!
-//        menu.attachTo(body)
-//    }
+    val contextMenuManager = ContextMenuManager()
 
 
 
     ComposeViewport(document.body!!) {
-        WebMainScreen(titleText)
+        WebMainScreen(titleText, contextMenuManager)
     }
 
-    menu.attachTo(document.body!!) // Attach to the body element
+//    menu.attachTo(document.body!!) // Attach to the body element
 
 }

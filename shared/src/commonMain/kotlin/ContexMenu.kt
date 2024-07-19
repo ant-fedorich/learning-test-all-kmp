@@ -4,3 +4,5 @@
 expect class ContextMenu {
     fun show(x: Int, y: Int)
 }
+
+expect class ContextMenuManager
