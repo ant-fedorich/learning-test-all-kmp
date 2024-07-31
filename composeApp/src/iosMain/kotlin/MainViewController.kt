@@ -13,6 +13,7 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,22 +71,22 @@ fun MainViewController(): UIViewController {
 
 
 
-
-@OptIn(ExperimentalForeignApi::class)
-fun MainViewController(): UIViewController {
-    return ComposeUIViewController {
-        MaterialTheme {
-            var showAlert by remember { mutableStateOf(false) } // State to control the alert
-
-            Column {
-//                Text("Title for IOS")
-                Button(onClick = { showAlert = true }) { // Button to trigger the alert
-                    Text("Show Alert!!!")
-                }
-            }
-        }
-    }
-}
+//
+//@OptIn(ExperimentalForeignApi::class)
+//fun MainViewController(): UIViewController {
+//    return ComposeUIViewController {
+//        MaterialTheme {
+//            var showAlert by remember { mutableStateOf(false) } // State to control the alert
+//
+//            Column {
+////                Text("Title for IOS")
+//                Button(onClick = { showAlert = true }) { // Button to trigger the alert
+//                    Text("Show Alert!!!")
+//                }
+//            }
+//        }
+//    }
+//}
 
 fun createAlertDialog(title: String, message: String): UIViewController {
     return ComposeUIViewController {
@@ -145,12 +146,13 @@ fun createAlertDialogForIOS(title: String, message: String): UIViewController {
 
 
 
-//@OptIn(ExperimentalForeignApi::class)
-//fun MainViewController() = ComposeUIViewController {
-//    MaterialTheme {
-//        Text("Title for IOS")
-//    }
-//}
+@OptIn(ExperimentalForeignApi::class)
+@Composable
+fun MainViewController() = ComposeUIViewController {
+    MaterialTheme {
+        Text("Title for IOS")
+    }
+}
 
 
 //@OptIn(ExperimentalForeignApi::class)

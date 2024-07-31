@@ -41,6 +41,7 @@ struct MainView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         let uiViewController = UIViewController()
+        let aaa = 
 
         // Create a SwiftUI hosting controller
         let hostingController = UIHostingController(rootView: ContentViewForHostingController(showAlert: $showAlert)) // Pass the binding
@@ -159,18 +160,18 @@ struct CustomAlert: View {
             ZStack { // Align content to the top
                 Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
                 VStack {
-                    // ... (alert content)
-                    Text(title).font(.headline)
-                    Text(message)
-                        .lineLimit(nil) // Allow unlimited lines
-                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-                    Text("Text text text text tte xtt ex fasd  dftt extt ext text text text text text text")
-                        .lineLimit(nil) // Allow unlimited lines
-                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-                        .frame(width: 50) // Set a fixed width
-                    Button(dismissButtonTitle) {
-                        isPresented = false
-                    }
+//                    // ... (alert content)
+//                    Text(title).font(.headline)
+//                    Text(message)
+//                        .lineLimit(nil) // Allow unlimited lines
+//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+//                    Text("Text text text text tte xtt ex fasd  dftt extt ext text text text text text text")
+//                        .lineLimit(nil) // Allow unlimited lines
+//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+//                        .frame(width: 50) // Set a fixed width
+//                    Button(dismissButtonTitle) {
+//                        isPresented = false
+//                    }
                 }
                 .padding()
                 .background(Color.white)

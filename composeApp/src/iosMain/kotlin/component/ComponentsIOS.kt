@@ -34,6 +34,10 @@ fun KotlinBlockForIOS() {
         Text("OK")
     }
 }
+
+fun createComposeViewController(): UIViewController = ComposeUIViewController {
+    KotlinBlockForIOS()
+}
 //
 //class KotlinBlockForIOSController: UIHostingController<ComposeView>(rootView: ComposeView(context).apply {
 //    setContent {
