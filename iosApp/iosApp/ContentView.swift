@@ -1,10 +1,17 @@
 import UIKit
 import SwiftUI
+import Combine // Add this import statement
+import ComposeApp
+
 
 // CustomAlert remains the same as your provided code
 
 struct ContentView: View {
-    @State private var showAlert = false
+    @State var showAlert = false
+    
+    let composeAlertDialogHelper = 100
+
+
 
 
     var body: some View {
@@ -12,22 +19,24 @@ struct ContentView: View {
             MainView(showAlert: $showAlert)
                 .ignoresSafeArea(.keyboard)
 
-//            if showAlert { // Conditionally show the alert
-//                CustomAlert(
-//                    title: "Alert Title",
-//                    message: "This is a custom alert!",
-//                    dismissButtonTitle: "OK",
-//                    isPresented: $showAlert
-//                )
-//                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
-//                .background(Color.black.opacity(0.3)) // Optional: Dim the background
-//            }
+            if showAlert { // Conditionally show the alert
+                CustomAlert(
+                    title: "Alert Title",
+                    message: "This is a custom alert!",
+                    dismissButtonTitle: "OK",
+                    isPresented: $showAlert
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
+                .background(Color.black.opacity(0.3)) // Optional: Dim the background
+            }
         }
     }
 }
 
 struct MainView: UIViewControllerRepresentable {
     @Binding var showAlert: Bool
+//    @State var keyboardHeight: CGFloat = 0
+
 
 
     func makeUIViewController(context: Context) -> UIViewController {
@@ -101,12 +110,12 @@ struct ContentViewForHostingController: View {
             Button("Show Alert") {
                 showAlert = true
             }
-            .alert("Important Message", isPresented: $showAlert)
-            {
-                Button("OK", role: .cancel) { }
-            } message: {
-                       Text("This is a simple alert in SwiftUI.")
-            }
+//            .alert("Important Message", isPresented: $showAlert)
+//            {
+//                Button("OK", role: .cancel) { }
+//            } message: {
+//                       Text("This is a simple alert in SwiftUI.")
+//            }
             
             
             TextField("Enter text", text: $userInput)
@@ -139,21 +148,100 @@ struct CustomAlert: View {
     var message: String
     var dismissButtonTitle: String
     @Binding var isPresented: Bool
+    @State var keyboardHeight: CGFloat = 0
+    @State var bottomPadding: CGFloat = 0 // Additional padding state
+
+
 
     var body: some View {
-        ZStack {  // ZStack to overlay elements
-            Color.black.opacity(0.3)
-                .edgesIgnoringSafeArea(.all)
-            VStack { // Container for alert content
-                Text(title).font(.headline)
-                Text(message)
-                Button(dismissButtonTitle) {
-                    isPresented = false
+        GeometryReader { geometry in // Get the screen size
+            
+            ZStack { // Align content to the top
+                Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
+                VStack {
+                    // ... (alert content)
+                    Text(title).font(.headline)
+                    Text(message)
+                        .lineLimit(nil) // Allow unlimited lines
+                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+                    Text("Text text text text tte xtt ex fasd  dftt extt ext text text text text text text")
+                        .lineLimit(nil) // Allow unlimited lines
+                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+                        .frame(width: 50) // Set a fixed width
+                    Button(dismissButtonTitle) {
+                        isPresented = false
+                    }
                 }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .offset(y: -bottomPadding) // Apply offset to the VStack
+                .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+                    let screenHeight = geometry.size.height
+                    let alertHeight = geometry.size.height / 2 // Estimated alert height
+
+                    if keyboardHeight > 0 && screenHeight - keyboardHeight - alertHeight < 0 {
+                        // Keyboard overlaps alert, calculate padding
+                        bottomPadding = abs(screenHeight - keyboardHeight - alertHeight)
+                    } else {
+                        // Reset padding if enough space or keyboard hidden
+                        bottomPadding = 0
+                    }
+                }
+                .animation(.easeOut(duration: 0.25), value: bottomPadding)
             }
-            .padding()
-            .background(Color.white) // Customize background color
-            .cornerRadius(10)        // Customize corner radius
         }
+    }
+}
+
+//struct CustomAlert: View {
+//    var title: String
+//    var message: String
+//    var dismissButtonTitle: String
+//    @Binding var isPresented: Bool
+//
+//    var body: some View {
+//        ZStack {  // ZStack to overlay elements
+//            Color.black.opacity(0.3)
+//                .edgesIgnoringSafeArea(.all)
+//            VStack { // Container for alert content
+//                Text(title).font(.headline)
+//                Text(message)
+//                    .lineLimit(nil) // Allow unlimited lines
+//                    .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+//                Text("Text text text text")
+//                        .lineLimit(nil) // Allow unlimited lines
+//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+//                        .frame(width: 50) // Set a fixed width
+//                Button(dismissButtonTitle) {
+//                    isPresented = false
+//                }
+//            }
+//            .padding()
+//            .background(Color.white) // Customize background color
+//            .cornerRadius(10)        // Customize corner radius
+//        }
+//    }
+//}
+
+
+
+// Keyboard Height Publisher
+extension Publishers {
+    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
+        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
+            .map { $0.keyboardHeight }
+        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
+            .map { _ in CGFloat(0) }
+        return MergeMany(willShow, willHide)
+            .eraseToAnyPublisher()
+
+    }
+}
+
+extension Notification {
+    var keyboardHeight: CGFloat {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height
+ ?? 0
     }
 }

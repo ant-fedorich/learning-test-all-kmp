@@ -133,6 +133,9 @@ android {
     }
 
 }
+dependencies {
+    implementation(libs.androidx.ui.android)
+}
 
 
 compose.desktop {

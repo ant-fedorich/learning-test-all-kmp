@@ -3,9 +3,12 @@ package component
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.ComposeUIViewController
-import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.utf8
 import platform.Foundation.NSNumber
 import platform.Foundation.NSStringFromSelector
 import platform.Foundation.numberWithLong
@@ -16,24 +19,101 @@ import platform.UIKit.UIViewController
 import platform.objc.OBJC_ASSOCIATION_RETAIN_NONATOMIC
 import platform.objc.objc_setAssociatedObject
 import platform.objc.sel_registerName
+import kotlinx.cinterop.utf8
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.UIKit.UIAlertAction
+import platform.UIKit.UIApplication
 
 
+
+@Composable
+fun KotlinBlockForIOS() {
+    Text("This is Title")
+    Text("This block from kotlin to IOS")
+    Button(onClick = { }) {
+        Text("OK")
+    }
+}
+//
+//class KotlinBlockForIOSController: UIHostingController<ComposeView>(rootView: ComposeView(context).apply {
+//    setContent {
+//        KotlinBlockForIOS() // Your Compose function
+//    }
+//})
+
+@Suppress("unused") // Used by Swift via platform channel
+fun showAlertDialog(title: String, message: String) {
+    MainViewControllerProxy.shared.showAlert(title, message)
+}
+
+
+
+@Suppress("unused") // Used by Swift via platform channel
 @OptIn(ExperimentalForeignApi::class)
 fun createAlertDialogForIOS(title: String, message: String): UIViewController {
     return ComposeUIViewController {
-        // Your Compose content for the dialog goes here
-        AlertDialog(
-            onDismissRequest = {}, // Dismiss logic (e.g., navigate back)
-            title = { Text(title) },
-            text = { Text(message) },
-            confirmButton = {
-                Button(onClick = { /* Action */ }) {
-                    Text("OK")
+        var showAlert by remember { mutableStateOf(true) } // State to control the alert
+
+        if (showAlert) {
+            AlertDialog(
+                onDismissRequest = { showAlert = false }, // Dismiss the alert
+                title = { Text(title) }, // Set the title dynamically
+                text = { Text(message) }, // Set the message dynamically
+                confirmButton = {
+                    Button(onClick = { showAlert = false }) {
+                        Text("OK")
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
+
+
+object MainViewControllerProxy {
+    lateinit var shared: MainViewControllerProxyInterface // Make it accessible from Swift
+}
+
+interface MainViewControllerProxyInterface {
+    fun showAlert(title: String, message: String)
+}
+
+
+//actual object MainViewControllerProxy: MainViewControllerProxyInterface {
+//    actual fun showAlert(title: String, message: String) {
+//        val alertController = UIAlertController()
+//        alertController.title = title
+//        alertController.message = message
+//
+//        val okAction = UIAlertAction()
+//        okAction.setEnabled(true)
+//
+//        alertController.addAction(okAction)
+//        UIApplication.sharedApplication.keyWindow?.rootViewController?.presentViewController(alertController, animated  
+//        = true, completion = null)
+//    }
+//}
+
+
+//////////
+
+
+////@OptIn(ExperimentalForeignApi::class)
+//fun createAlertDialogForIOS2(title: String, message: String): UIViewController {
+//    return ComposeUIViewController {
+//        // Your Compose content for the dialog goes here
+//        AlertDialog(
+//            onDismissRequest = {}, // Dismiss logic (e.g., navigate back)
+//            title = { Text(title) },
+//            text = { Text(message) },
+//            confirmButton = {
+//                Button(onClick = { /* Action */ }) {
+//                    Text("OK")
+//                }
+//            }
+//        )
+//    }
+//}
 
 @OptIn(ExperimentalForeignApi::class)
 fun uiAlertController(): UIAlertController {

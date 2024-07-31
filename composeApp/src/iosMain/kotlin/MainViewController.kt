@@ -45,7 +45,7 @@ fun MainViewController(): UIViewController {
             var showAlert by remember { mutableStateOf(false) } // State to control the alert
 
             Column {
-                Text("Title for IOS")
+//                Text("Title for IOS")
 
                 Button(onClick = { showAlert = true }) { // Button to trigger the alert
                     Text("Show Alert!!!")
@@ -70,12 +70,87 @@ fun MainViewController(): UIViewController {
 
 
 
+
 @OptIn(ExperimentalForeignApi::class)
-fun MainViewController() = ComposeUIViewController {
-    MaterialTheme {
-        Text("Title for IOS")
+fun MainViewController(): UIViewController {
+    return ComposeUIViewController {
+        MaterialTheme {
+            var showAlert by remember { mutableStateOf(false) } // State to control the alert
+
+            Column {
+//                Text("Title for IOS")
+                Button(onClick = { showAlert = true }) { // Button to trigger the alert
+                    Text("Show Alert!!!")
+                }
+            }
+        }
     }
 }
+
+fun createAlertDialog(title: String, message: String): UIViewController {
+    return ComposeUIViewController {
+        AlertDialog(
+            onDismissRequest = {  }, // Dismiss the alert
+            title = { Text("Alert") },
+            text = { Text("This is an alert dialog with Compose content.") },
+            confirmButton = {
+                Button(onClick = {  }) { // Dismiss on "OK" click
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
+
+class ComposeAlertDialogHelper {
+//    @ExportForIOS // Make this function accessible to Swift
+
+}
+
+//@OptIn(ExperimentalForeignApi::class)
+//fun createAlertDialogForIOS(title: String, message: String): UIViewController {
+//    return ComposeUIViewController {
+//        // Your Compose content for the dialog goes here
+//        if (showAlert) { // Show the alert when state is true
+//            AlertDialog(
+//                onDismissRequest = { showAlert = false }, // Dismiss the alert
+//                title = { Text("Alert") },
+//                text = { Text("This is an alert dialog with Compose content.") },
+//                confirmButton = {
+//                    Button(onClick = { showAlert = false }) { // Dismiss on "OK" click
+//                        Text("OK")
+//                    }
+//                }
+//            )
+//        }
+//    }
+//}
+
+/*@OptIn(ExperimentalForeignApi::class)
+fun createAlertDialogForIOS(title: String, message: String): UIViewController {
+    return ComposeUIViewController {
+        // Your Compose content for the dialog goes here
+        AlertDialog(
+            onDismissRequest = {}, // Dismiss logic (e.g., navigate back)
+            title = { Text(title) },
+            text = { Text(message) },
+            confirmButton = {
+                Button(onClick = { "Action" }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}*/
+
+
+
+//@OptIn(ExperimentalForeignApi::class)
+//fun MainViewController() = ComposeUIViewController {
+//    MaterialTheme {
+//        Text("Title for IOS")
+//    }
+//}
 
 
 //@OptIn(ExperimentalForeignApi::class)
