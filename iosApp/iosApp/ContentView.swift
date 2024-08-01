@@ -24,7 +24,10 @@ struct ContentView: View {
                     message: "This is a custom alert!",
                     dismissButtonTitle: "OK",
                     isPresented: $showAlert,
-                    showAlertPar: { showAlert = true }
+                    showAlertPar: {
+                        print("ComposeView: Button clicked")
+                        showAlert = true
+                    }
                 )
                 .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
                 .background(Color.black.opacity(0.3)) // Optional: Dim the background

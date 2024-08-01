@@ -38,7 +38,7 @@ fun KotlinBlockForIOS(showAlert: () -> Unit) {
     ) {
         Text("This is Title")
         Text("This block from kotlin to IOS")
-        Button(onClick = { }) {
+        Button(onClick = showAlert) {
             Text("OK")
         }
     }
