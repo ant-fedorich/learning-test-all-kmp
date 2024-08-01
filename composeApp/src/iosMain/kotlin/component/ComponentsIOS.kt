@@ -1,5 +1,7 @@
 package component
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -8,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.Foundation.NSNumber
 import platform.Foundation.NSStringFromSelector
@@ -27,16 +31,21 @@ import platform.UIKit.UIApplication
 
 
 @Composable
-fun KotlinBlockForIOS() {
-    Text("This is Title")
-    Text("This block from kotlin to IOS")
-    Button(onClick = { }) {
-        Text("OK")
+fun KotlinBlockForIOS(showAlert: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .height(100.dp)
+    ) {
+        Text("This is Title")
+        Text("This block from kotlin to IOS")
+        Button(onClick = { }) {
+            Text("OK")
+        }
     }
 }
 
-fun createComposeViewController(): UIViewController = ComposeUIViewController {
-    KotlinBlockForIOS()
+fun createComposeViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
+    KotlinBlockForIOS(showAlert)
 }
 //
 //class KotlinBlockForIOSController: UIHostingController<ComposeView>(rootView: ComposeView(context).apply {

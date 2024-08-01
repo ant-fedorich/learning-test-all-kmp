@@ -3,7 +3,6 @@ import SwiftUI
 import Combine // Add this import statement
 import ComposeApp
 
-
 // CustomAlert remains the same as your provided code
 
 struct ContentView: View {
@@ -24,7 +23,8 @@ struct ContentView: View {
                     title: "Alert Title",
                     message: "This is a custom alert!",
                     dismissButtonTitle: "OK",
-                    isPresented: $showAlert
+                    isPresented: $showAlert,
+                    showAlertPar: { showAlert = true }
                 )
                 .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
                 .background(Color.black.opacity(0.3)) // Optional: Dim the background
@@ -32,6 +32,18 @@ struct ContentView: View {
         }
     }
 }
+
+struct ComposeView: UIViewControllerRepresentable {
+    var showAlert: () -> Void
+    func makeUIViewController(context: Context) -> UIViewController {
+        ComponentsIOSKt.createComposeViewController {
+            showAlert()
+        }
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
+}
+
 
 struct MainView: UIViewControllerRepresentable {
     @Binding var showAlert: Bool
@@ -41,7 +53,7 @@ struct MainView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         let uiViewController = UIViewController()
-        let aaa = 
+        
 
         // Create a SwiftUI hosting controller
         let hostingController = UIHostingController(rootView: ContentViewForHostingController(showAlert: $showAlert)) // Pass the binding
@@ -95,7 +107,6 @@ struct ContentViewForHostingController: View {
     var body: some View {
         VStack {
             Text("Hello from SwiftUI!")
-            
 //            TextField("Your input here", text: $userInput)
 //                .padding() // Add padding for better visual appearance
 //                .background(
@@ -149,6 +160,7 @@ struct CustomAlert: View {
     var message: String
     var dismissButtonTitle: String
     @Binding var isPresented: Bool
+    var showAlertPar: () -> Void
     @State var keyboardHeight: CGFloat = 0
     @State var bottomPadding: CGFloat = 0 // Additional padding state
 
@@ -160,7 +172,9 @@ struct CustomAlert: View {
             ZStack { // Align content to the top
                 Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
                 VStack {
-//                    // ... (alert content)
+                    ComposeView(showAlert: showAlertPar).frame(maxWidth: 300, maxHeight: 100)
+                    //
+                    // ... (alert content)
 //                    Text(title).font(.headline)
 //                    Text(message)
 //                        .lineLimit(nil) // Allow unlimited lines

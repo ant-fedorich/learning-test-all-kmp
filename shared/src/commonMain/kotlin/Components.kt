@@ -9,8 +9,3 @@ expect class MyText(text: String)
 
 @Composable
 expect fun ComButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier)
-
-
-
-
-
