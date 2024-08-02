@@ -11,43 +11,52 @@ struct ContentView: View {
     let composeAlertDialogHelper = 100
 
 
-
-
     var body: some View {
-        ZStack { // Use ZStack to layer the alert over MainView
-            MainView(showAlert: $showAlert)
-                .ignoresSafeArea(.keyboard)
-
-            if showAlert { // Conditionally show the alert
-                CustomAlert(
-                    title: "Alert Title",
-                    message: "This is a custom alert!",
-                    dismissButtonTitle: "OK",
-                    isPresented: $showAlert,
-                    showAlertPar: {
-                        print("ComposeView: Button clicked")
-                        showAlert = true
-                    }
-                )
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
-                .background(Color.black.opacity(0.3)) // Optional: Dim the background
+        VStack { // Use ZStack to layer the alert over MainView
+            UIKitBlockView().frame(height: 200, alignment: .center).colorMultiply(.red)
+            
+            
+//            Spacer(minLength: 16)
+            VStack {
+                Text("Block after UIKit").bold()
+                Button("OK") {
+                    print("SwiftUI button clicked")
+                }
             }
+            .frame(maxWidth: .infinity)
+            .background(.blue)
+            .padding()
         }
     }
 }
 
-struct ComposeView: UIViewControllerRepresentable {
-    var showAlert: () -> Void
-    func makeUIViewController(context: Context) -> UIViewController {
-        ComponentsIOSKt.createComposeViewController {
-            showAlert()
-        }
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
-}
 
 
+//func addUIForMultiplatform(showAlert: () -> Void) {
+//        MainView(showAlert: $showAlert).ignoresSafeArea(.keyboard)
+//
+//        if showAlert { // Conditionally show the alert
+//            CustomAlert(
+//                title: "Alert Title",
+//                message: "This is a custom alert!",
+//                dismissButtonTitle: "OK",
+//                isPresented: $showAlert,
+//                showAlertPar: {
+//                    print("ComposeView: Button clicked")
+//                    showAlert = false
+//                }
+//            )
+////                .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
+////                .background(Color.black.opacity(0.3)) // Optional: Dim the background
+//        }
+//}
+
+
+
+
+
+
+/////////////////////
 struct MainView: UIViewControllerRepresentable {
     @Binding var showAlert: Bool
 //    @State var keyboardHeight: CGFloat = 0
@@ -104,7 +113,15 @@ struct ContentViewForHostingController: View {
     @Binding var showAlert: Bool // Receive the binding
     @State var userInput = ""  // Holds the text field input
     @FocusState private var keyboardShown: Bool // For keyboard focus
+    @State private var bottomPadding: CGFloat = 0 // Dynamic padding for keyboard
 
+    // ViewHeightKey Definition
+    struct ViewHeightKey: PreferenceKey {
+        static var defaultValue: CGFloat { 0 }
+        static func reduce(value: inout Value, nextValue: () -> Value) {
+            value += nextValue()
+        }
+    }
 
 
     var body: some View {
@@ -137,6 +154,14 @@ struct ContentViewForHostingController: View {
                 .frame(height: 120)
                 .cornerRadius(10)
                 .focused($keyboardShown)
+                .padding(.bottom, bottomPadding)
+                .background(GeometryReader { geo in
+                    Color.clear.preference(key: ViewHeightKey.self, value: geo.size.height)
+                })
+                .onPreferenceChange(ViewHeightKey.self) {
+                    // Calculate padding dynamically based on keyboard height
+                    bottomPadding = max(0, $0 - UIScreen.main.bounds.height / 3) // Adjust the divisor for desired behavior
+                }
                 .task {
                     for await event in NotificationCenter.default.notifications(named: UIResponder.keyboardDidShowNotification) {
                         keyboardShown = true
@@ -155,111 +180,7 @@ struct ContentViewForHostingController: View {
             
             // Add more SwiftUI components here
         }
-    }
-}
+        .animation(.easeOut(duration: 0.25), value: bottomPadding) // Smooth animation
 
-struct CustomAlert: View {
-    var title: String
-    var message: String
-    var dismissButtonTitle: String
-    @Binding var isPresented: Bool
-    var showAlertPar: () -> Void
-    @State var keyboardHeight: CGFloat = 0
-    @State var bottomPadding: CGFloat = 0 // Additional padding state
-
-
-
-    var body: some View {
-        GeometryReader { geometry in // Get the screen size
-            
-            ZStack { // Align content to the top
-                Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
-                VStack {
-                    ComposeView(showAlert: showAlertPar).frame(maxWidth: 300, maxHeight: 100)
-                    //
-                    // ... (alert content)
-//                    Text(title).font(.headline)
-//                    Text(message)
-//                        .lineLimit(nil) // Allow unlimited lines
-//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                    Text("Text text text text tte xtt ex fasd  dftt extt ext text text text text text text")
-//                        .lineLimit(nil) // Allow unlimited lines
-//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                        .frame(width: 50) // Set a fixed width
-//                    Button(dismissButtonTitle) {
-//                        isPresented = false
-//                    }
-                }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .offset(y: -bottomPadding) // Apply offset to the VStack
-                .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-                    let screenHeight = geometry.size.height
-                    let alertHeight = geometry.size.height / 2 // Estimated alert height
-
-                    if keyboardHeight > 0 && screenHeight - keyboardHeight - alertHeight < 0 {
-                        // Keyboard overlaps alert, calculate padding
-                        bottomPadding = abs(screenHeight - keyboardHeight - alertHeight)
-                    } else {
-                        // Reset padding if enough space or keyboard hidden
-                        bottomPadding = 0
-                    }
-                }
-                .animation(.easeOut(duration: 0.25), value: bottomPadding)
-            }
-        }
-    }
-}
-
-//struct CustomAlert: View {
-//    var title: String
-//    var message: String
-//    var dismissButtonTitle: String
-//    @Binding var isPresented: Bool
-//
-//    var body: some View {
-//        ZStack {  // ZStack to overlay elements
-//            Color.black.opacity(0.3)
-//                .edgesIgnoringSafeArea(.all)
-//            VStack { // Container for alert content
-//                Text(title).font(.headline)
-//                Text(message)
-//                    .lineLimit(nil) // Allow unlimited lines
-//                    .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                Text("Text text text text")
-//                        .lineLimit(nil) // Allow unlimited lines
-//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                        .frame(width: 50) // Set a fixed width
-//                Button(dismissButtonTitle) {
-//                    isPresented = false
-//                }
-//            }
-//            .padding()
-//            .background(Color.white) // Customize background color
-//            .cornerRadius(10)        // Customize corner radius
-//        }
-//    }
-//}
-
-
-
-// Keyboard Height Publisher
-extension Publishers {
-    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
-        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
-            .map { $0.keyboardHeight }
-        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
-        return MergeMany(willShow, willHide)
-            .eraseToAnyPublisher()
-
-    }
-}
-
-extension Notification {
-    var keyboardHeight: CGFloat {
-        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height
- ?? 0
     }
 }
