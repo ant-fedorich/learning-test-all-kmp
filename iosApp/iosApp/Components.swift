@@ -84,15 +84,16 @@ struct ComposeView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
 }
 
+
+//
 struct CustomAlert: View {
     var title: String
     var message: String
     var dismissButtonTitle: String
-    @Binding var isPresented: Bool
-    var showAlertPar: () -> Void
+    @Binding var isButtonClicked: Bool
+    var alertBlock: () -> Void
     @State var keyboardHeight: CGFloat = 0
     @State var bottomPadding: CGFloat = 0 // Additional padding state
-
 
 
     var body: some View {
@@ -101,29 +102,28 @@ struct CustomAlert: View {
             ZStack { // Align content to the top
                 Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
                 VStack {
-                    ComposeView(onButtonClick: showAlertPar)
-                        .frame(maxWidth: .infinity, maxHeight: 1000)  // SwiftUI layout
-                        .cornerRadius(10)
-//                        .frame(maxWidth: .infinity) // Take up available width
-                        .padding()
+//                    ComposeView(onButtonClick: showAlertPar)
+//                        .frame(maxWidth: .infinity, maxHeight: 1000)  // SwiftUI layout
+//                        .cornerRadius(10)
+////                        .frame(maxWidth: .infinity) // Take up available width
+//                        .padding()
 //                        .background(Color.red)
 //                        .cornerRadius(10)
 
                     
 //                    ComposeView(showAlertViewParam: showAlertPar)//.frame(maxWidth: 200, maxHeight: 200)
                     //
-                    // ... (alert content)
-//                    Text(title).font(.headline)
-//                    Text(message)
-//                        .lineLimit(nil) // Allow unlimited lines
-//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                    Text("Text text text text tte xtt ex fasd  dftt extt ext text text text text text text")
-//                        .lineLimit(nil) // Allow unlimited lines
-//                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
-//                        .frame(width: 50) // Set a fixed width
-//                    Button(dismissButtonTitle) {
-//                        isPresented = false
-//                    }
+                    Text(title).font(.headline)
+                    Text(message)
+                        .lineLimit(nil) // Allow unlimited lines
+                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+                    Text("Text text text text tte xtt ex fasd  dftt")
+                        .lineLimit(nil) // Allow unlimited lines
+                        .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+                        .frame(width: 50) // Set a fixed width
+                    Button(dismissButtonTitle) {
+                        isButtonClicked = false
+                    }
                 }
 //                .frame(maxWidth: .infinity) // Take up available width
 //                .padding(16)
@@ -147,3 +147,44 @@ struct CustomAlert: View {
 //        }
     }
 }
+
+
+
+struct CustomAlert2: View {
+  var title: String
+  var message: String
+  var dismissButtonTitle: String
+  @Binding var isButtonClicked: Bool
+  var alertBlock: () -> Void
+  @State var keyboardHeight: CGFloat = 0
+
+  var body: some View {
+//      ZStack(alignment: .top) {
+      Color.black.opacity(0.3).edgesIgnoringSafeArea(.all) // Background overlay
+
+      VStack {
+        Text(title).font(.headline)
+        Text(message)
+          .lineLimit(nil)
+          .fixedSize(horizontal: false, vertical: true)
+
+        Text("Text text text text tte xtt ex fasd  dftt")
+          .lineLimit(nil)
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(width: 50) // Set a fixed width
+
+        Button(dismissButtonTitle) {
+          isButtonClicked = false
+        }
+      }
+      //  .frame(maxWidth: .infinity) // Remove if needed
+      .padding(16)
+      .background(Color.green)
+      .cornerRadius(10)
+    }
+//    .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+      // Update bottom padding logic based on your requirements
+//    }
+  }
+
+

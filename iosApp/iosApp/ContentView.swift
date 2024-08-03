@@ -7,35 +7,72 @@ import ComposeApp
 
 struct ContentView: View {
     @State var showAlert = false
+//    @State private var showDialog = false // New variable for the sheet
+
     
     let composeAlertDialogHelper = 100
 
 
-    var body: some View {
-        VStack { // Use ZStack to layer the alert over MainView
-            UIKitBlockView(
-                onButtonClick: {
+    var body: some View  {
+        ZStack(alignment: .center) {
+            VStack { // Use ZStack to layer the alert over MainView
+                
+                UIKitBlockView {
+                    showAlert = true
                     print("UIKit button clicked")
                 }
-            ).frame(height: 200, alignment: .center).colorMultiply(.red)
-            
-            ComposeView {
-                print("Compose UIKit button clicked")
+                .frame(height: 200, alignment: .center).colorMultiply(.red)
+                
+                ComposeView {
+                    showAlert = true
+                    print("Compose UIKit button clicked")
+                }
+                
+                VStack {
+                    Text("SwiftUI Block").bold()
+                    Button("OK") {
+                        showAlert = true
+                        print("SwiftUI button clicked")
+                    }.foregroundColor(.gray).font(.title)
+
+                }
+                .frame(maxWidth: .infinity, minHeight: 300)
+                .background(.blue)
+                
+                
+//                MainView(showAlert: $showAlert)
+                
+//                if showAlert {
+//                    CustomAlert2(
+//                        title: "Alert Title",
+//                        message: "This is a custom alert!",
+//                        dismissButtonTitle: "OK",
+//                        isButtonClicked: $showAlert,
+//                        alertBlock: {
+//                            print("ComposeView: Button clicked")
+//                            showAlert = false
+//                        }
+//                    )
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
+//                    .background(Color.black.opacity(0.3)) // Optional: Dim the background
+//                }
             }
-            
-            
-//            Spacer(minLength: 16)
-            VStack {
-                Text("SwiftUI Block").bold()
-                Button("OK") {
-                    print("SwiftUI button clicked")
-                }.foregroundColor(.gray).font(.title)
-            }
-            .frame(maxWidth: .infinity, minHeight: 300)
-            .background(.blue)
-            .padding(4)
+
+        }.sheet(isPresented: $showAlert) {
+            CustomAlert2(
+                title: "Alert Title",
+                message: "This is a custom alert!",
+                dismissButtonTitle: "OK",
+                isButtonClicked: $showAlert,
+                alertBlock: {
+                    print("ComposeView: Button clicked")
+                    showAlert = false
+                }
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
+            .background(Color.black.opacity(0.3)) // Optional: Dim the background
         }
-        .padding(4)
+
     }
 }
 

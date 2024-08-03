@@ -46,7 +46,7 @@ fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
             .padding(8.dp)
     ) {
         Text(
-            text = "This is Title",
+            text = "ComposeUI Block",
             fontSize = MaterialTheme.typography.h5.fontSize,
             fontWeight = FontWeight.Bold
         )
