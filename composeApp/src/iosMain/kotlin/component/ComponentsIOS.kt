@@ -2,7 +2,6 @@ package component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,7 +23,6 @@ import androidx.compose.ui.window.ComposeUIViewController
 import platform.Foundation.NSNumber
 import platform.Foundation.NSStringFromSelector
 import platform.Foundation.numberWithLong
-import platform.Foundation.setValue
 import platform.UIKit.UIAlertController
 import platform.UIKit.UIAlertControllerStyleAlert
 import platform.UIKit.UIViewController
@@ -33,13 +31,10 @@ import platform.objc.objc_setAssociatedObject
 import platform.objc.sel_registerName
 import kotlinx.cinterop.utf8
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.UIKit.UIAlertAction
-import platform.UIKit.UIApplication
-
 
 
 @Composable
-fun KotlinBlockForIOS(showAlert: () -> Unit) {
+fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
     var textState by remember { mutableStateOf("") }
 
     Column(
@@ -56,14 +51,14 @@ fun KotlinBlockForIOS(showAlert: () -> Unit) {
             fontWeight = FontWeight.Bold
         )
         Text("This block from kotlin to IOS")
-//        TextField(
-//            modifier = Modifier.height(40.dp),
-//            value = textState,
-//            onValueChange = {
-//                textState = it
-//            }
-//        )
-        Button(onClick = showAlert) {
+        TextField(
+            //modifier = Modifier.height(40.dp),
+            value = textState,
+            onValueChange = {
+                textState = it
+            }
+        )
+        Button(onClick = onButtonClick) {
             Text("OK")
         }
     }

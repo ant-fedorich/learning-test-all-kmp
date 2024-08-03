@@ -13,20 +13,29 @@ struct ContentView: View {
 
     var body: some View {
         VStack { // Use ZStack to layer the alert over MainView
-            UIKitBlockView().frame(height: 200, alignment: .center).colorMultiply(.red)
+            UIKitBlockView(
+                onButtonClick: {
+                    print("UIKit button clicked")
+                }
+            ).frame(height: 200, alignment: .center).colorMultiply(.red)
+            
+            ComposeView {
+                print("Compose UIKit button clicked")
+            }
             
             
 //            Spacer(minLength: 16)
             VStack {
-                Text("Block after UIKit").bold()
+                Text("SwiftUI Block").bold()
                 Button("OK") {
                     print("SwiftUI button clicked")
-                }
+                }.foregroundColor(.gray).font(.title)
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, minHeight: 300)
             .background(.blue)
-            .padding()
+            .padding(4)
         }
+        .padding(4)
     }
 }
 

@@ -1,11 +1,3 @@
-//
-//  Components.swift
-//  iosApp
-//
-//  Created by eltonio on 03.08.2024.
-//  Copyright © 2024 orgName. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import SwiftUI
@@ -14,10 +6,31 @@ import ComposeApp
 
 
 
+// SwiftUI Representable
+struct UIKitBlockView: UIViewControllerRepresentable {
+    let onButtonClick: () -> Void
+    
+    func makeUIViewController(context: Context) -> UIKitBlockViewController {
+        UIKitBlockViewController {
+            onButtonClick()
+        }
+    }
 
-
+    func updateUIViewController(_ uiViewController: UIKitBlockViewController, context: Context) {  }
+}
 // UIKit ViewController
-final class UIKitBlockViewController: UIViewController {
+class UIKitBlockViewController: UIViewController {
+    var onButtonClick: () -> Void
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    init(onButtonClick: @escaping () -> Void) {
+         self.onButtonClick = onButtonClick
+         super.init(nibName: nil, bundle: nil)
+     }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +43,7 @@ final class UIKitBlockViewController: UIViewController {
         
         let actionButton = UIButton(type: .system)
         actionButton.setTitle("Tap Me!", for: .normal)
+        actionButton.tintColor = .gray
         actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         view.addSubview(actionButton)
         
@@ -49,33 +63,21 @@ final class UIKitBlockViewController: UIViewController {
     }
 
     @objc func buttonTapped() {
-        // Handle button tap here
-        print("Button in UIKit Block Tapped!")
+        onButtonClick()
+        //print("Button in UIKit Block Tapped!")
     }
 }
+
+//////
+
+
 
 // SwiftUI Representable
-struct UIKitBlockView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIKitBlockViewController {
-        UIKitBlockViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: UIKitBlockViewController, context: Context) {
-        // Update if needed when your SwiftUI state changes
-    }
-}
-
-
-
-
-
-
-
 struct ComposeView: UIViewControllerRepresentable {
-    var showAlertViewParam: () -> Void
+    var onButtonClick: () -> Void
     func makeUIViewController(context: Context) -> UIViewController {
         ComponentsIOSKt.createComposeViewController {
-            showAlertViewParam()
+            onButtonClick()
         }
     }
 
@@ -99,7 +101,7 @@ struct CustomAlert: View {
             ZStack { // Align content to the top
                 Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
                 VStack {
-                    ComposeView(showAlertViewParam: showAlertPar)
+                    ComposeView(onButtonClick: showAlertPar)
                         .frame(maxWidth: .infinity, maxHeight: 1000)  // SwiftUI layout
                         .cornerRadius(10)
 //                        .frame(maxWidth: .infinity) // Take up available width
