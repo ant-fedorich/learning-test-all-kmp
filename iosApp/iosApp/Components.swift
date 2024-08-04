@@ -86,7 +86,7 @@ struct ComposeView: UIViewControllerRepresentable {
 
 
 //
-struct CustomAlert: View {
+struct CustomDialogSwiftUI: View {
     var title: String
     var message: String
     var dismissButtonTitle: String
@@ -150,18 +150,15 @@ struct CustomAlert: View {
 
 
 
-struct CustomAlert2: View {
+struct CustomSheetSwiftUI: View {
   var title: String
   var message: String
   var dismissButtonTitle: String
   @Binding var isButtonClicked: Bool
-  var alertBlock: () -> Void
+  var onButtonClickBlock: () -> Void
   @State var keyboardHeight: CGFloat = 0
 
   var body: some View {
-//      ZStack(alignment: .top) {
-      Color.black.opacity(0.3).edgesIgnoringSafeArea(.all) // Background overlay
-
       VStack {
         Text(title).font(.headline)
         Text(message)
@@ -174,17 +171,38 @@ struct CustomAlert2: View {
           .frame(width: 50) // Set a fixed width
 
         Button(dismissButtonTitle) {
-          isButtonClicked = false
+//            isButtonClicked = false
+            print("CustomSheetSwiftUI: Button clicked")
+            onButtonClickBlock()
         }
       }
-      //  .frame(maxWidth: .infinity) // Remove if needed
-      .padding(16)
-      .background(Color.green)
-      .cornerRadius(10)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color.green) //Background of the block VStack
     }
-//    .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-      // Update bottom padding logic based on your requirements
-//    }
-  }
+}
+
+
+struct CustomSheetCompose: View {
+  var title: String
+  var message: String
+  var dismissButtonTitle: String
+  @Binding var isButtonClicked: Bool
+  var onButtonClickBlock: () -> Void
+  @State var keyboardHeight: CGFloat = 0
+
+  var body: some View {
+      VStack {
+          ComposeView(onButtonClick: onButtonClickBlock)
+//              .frame(maxWidth: .infinity, maxHeight: .infinity)  // SwiftUI layout
+//              .cornerRadius(10)
+//                        .frame(maxWidth: .infinity) // Take up available width
+//              .padding()
+//              .background(Color.red)
+//              .cornerRadius(10)
+      }
+//      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color.green) //Background of the block VStack
+    }
+}
 
 

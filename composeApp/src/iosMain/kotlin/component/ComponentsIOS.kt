@@ -2,6 +2,8 @@ package component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,17 +35,20 @@ import kotlinx.cinterop.utf8
 import kotlinx.cinterop.ExperimentalForeignApi
 
 
+/** Wrapper to use in IOS */
+fun createComposeViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
+    KotlinBlockForIOS(showAlert)
+}
+
 @Composable
 fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
     var textState by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
-//            .fillMaxWidth()
-            .height(300.dp)
-            .width(400.dp)
+            .fillMaxSize()
             .background(Color.Magenta)
-            .padding(8.dp)
+            .padding(12.dp)
     ) {
         Text(
             text = "ComposeUI Block",
@@ -52,20 +57,20 @@ fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
         )
         Text("This block from kotlin to IOS")
         TextField(
-            //modifier = Modifier.height(40.dp),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
             value = textState,
             onValueChange = {
                 textState = it
             }
         )
-        Button(onClick = onButtonClick) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onButtonClick
+        ) {
             Text("OK")
         }
     }
-}
-
-fun createComposeViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
-    KotlinBlockForIOS(showAlert)
 }
 //
 //class KotlinBlockForIOSController: UIHostingController<ComposeView>(rootView: ComposeView(context).apply {
