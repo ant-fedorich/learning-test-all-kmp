@@ -10,6 +10,7 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		6D2D23DF2C6001B000D1DD6D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2D23DE2C6001B000D1DD6D /* CustomDialog.swift */; };
 		6DEFB5CE2C5E813D006D79D8 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFB5CD2C5E813D006D79D8 /* Components.swift */; };
 		6DEFB5D02C5E8157006D79D8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEFB5CF2C5E8157006D79D8 /* Utils.swift */; };
 		6DEFB5D52C5E8225006D79D8 /* ComposeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DEFB5D42C5E8225006D79D8 /* ComposeApp.framework */; };
@@ -20,6 +21,7 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		6D2D23DE2C6001B000D1DD6D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		6DB3EDE32C5B67CD00010EF6 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		6DEFB5CD2C5E813D006D79D8 /* Components.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		6DEFB5CF2C5E8157006D79D8 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				6D2D23DE2C6001B000D1DD6D /* CustomDialog.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				6DEFB5CE2C5E813D006D79D8 /* Components.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				6DEFB5D02C5E8157006D79D8 /* Utils.swift in Sources */,
+				6D2D23DF2C6001B000D1DD6D /* CustomDialog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

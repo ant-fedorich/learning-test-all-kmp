@@ -7,6 +7,7 @@ import ComposeApp
 
 struct ContentView: View {
     @State var showSheet = false
+    @State var showDialog = false
 //    @State private var showDialog = false // New variable for the sheet
 
     
@@ -14,77 +15,92 @@ struct ContentView: View {
 
 
     var body: some View  {
-        ZStack(alignment: .center) {
-            VStack { // Use ZStack to layer the alert over MainView
-                
-                UIKitBlockView {
-                    showSheet = true
-                    print("UIKit button clicked")
-                }
-                .frame(height: 200, alignment: .center).colorMultiply(.red)
-                
-                ComposeView {
-                    showSheet = true
-                    print("Compose UIKit button clicked")
-                }
-                
-                VStack {
-                    Text("SwiftUI Block").bold()
-                    Button("OK") {
-                        showSheet = true
-                        print("SwiftUI button clicked")
-                    }.foregroundColor(.gray).font(.title)
-
-                }
-                .frame(maxWidth: .infinity, minHeight: 300)
-                .background(.blue)
-                
-                
-//                MainView(showAlert: $showAlert)
-                
-//                if showAlert {
-//                    CustomAlert2(
-//                        title: "Alert Title",
-//                        message: "This is a custom alert!",
-//                        dismissButtonTitle: "OK",
-//                        isButtonClicked: $showAlert,
-//                        alertBlock: {
-//                            print("ComposeView: Button clicked")
-//                            showAlert = false
-//                        }
-//                    )
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
-//                    .background(Color.black.opacity(0.3)) // Optional: Dim the background
-//                }
+        VStack {
+            Button("Show Dialog") {
+              showDialog = true
             }
-
-        }
-        .sheet(isPresented: $showSheet) {
-            CustomSheetCompose(
-                title: "Alert Title",
-                message: "This is a custom alert!",
-                dismissButtonTitle: "OK",
-                isButtonClicked: $showSheet,
-                onButtonClickBlock: {
-                    print("ComposeView: Button clicked")
-                    showSheet = false
-                }
+            .overlay(
+              CustomDialog(isShowing: $showDialog) {
+                      Text("This is my custom dialog")
+                      Button("Close") {
+                        showDialog = false
+                      }
+                  }
             )
-            .frame(maxWidth: .infinity, maxHeight: .infinity).edgesIgnoringSafeArea(.all)
-            .background(Color.black) // Background of the CustomSheetCompose itself
-                
-//               CustomSheetSwiftUI(
-//                    title: "Alert Title",
-//                    message: "This is a custom alert!",
-//                    dismissButtonTitle: "OK",
-//                    isButtonClicked: $showSheet,
-//                    onButtonClickBlock: {
-//                        showSheet = false
-//                    }
-//                )
-//                .frame(maxWidth: .infinity, maxHeight: .infinity).edgesIgnoringSafeArea(.all)
-//                .background(Color.black) // Background of the CustomSheetSwiftUI itself
         }
+
+        
+//        ZStack(alignment: .center) {
+//            VStack { // Use ZStack to layer the alert over MainView
+//                
+//                UIKitBlockView {
+//                    showSheet = true
+//                    print("UIKit button clicked")
+//                }
+//                .frame(height: 200, alignment: .center).colorMultiply(.red)
+//                
+//                ComposeView {
+//                    showSheet = true
+//                    print("Compose UIKit button clicked")
+//                }
+//                
+//                VStack {
+//                    Text("SwiftUI Block").bold()
+//                    Button("OK") {
+//                        showSheet = true
+//                        print("SwiftUI button clicked")
+//                    }.foregroundColor(.gray).font(.title)
+//
+//                }
+//                .frame(maxWidth: .infinity, minHeight: 300)
+//                .background(.blue)
+//                
+//                
+////                MainView(showAlert: $showAlert)
+//                
+////                if showAlert {
+////                    CustomAlert2(
+////                        title: "Alert Title",
+////                        message: "This is a custom alert!",
+////                        dismissButtonTitle: "OK",
+////                        isButtonClicked: $showAlert,
+////                        alertBlock: {
+////                            print("ComposeView: Button clicked")
+////                            showAlert = false
+////                        }
+////                    )
+////                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the screen
+////                    .background(Color.black.opacity(0.3)) // Optional: Dim the background
+////                }
+//            }
+//
+//        }
+//        .sheet(isPresented: $showSheet) {
+//            CustomSheetCompose(
+//                title: "Alert Title",
+//                message: "This is a custom alert!",
+//                dismissButtonTitle: "OK",
+//                isButtonClicked: $showSheet,
+//                onButtonClickBlock: {
+//                    print("ComposeView: Button clicked")
+//                    showSheet = false
+//                }
+//            )
+//            .frame(maxWidth: .infinity, maxHeight: .infinity).edgesIgnoringSafeArea(.all)
+//            .background(Color.black) // Background of the CustomSheetCompose itself
+//                
+////               CustomSheetSwiftUI(
+////                    title: "Alert Title",
+////                    message: "This is a custom alert!",
+////                    dismissButtonTitle: "OK",
+////                    isButtonClicked: $showSheet,
+////                    onButtonClickBlock: {
+////                        showSheet = false
+////                    }
+////                )
+////                .frame(maxWidth: .infinity, maxHeight: .infinity).edgesIgnoringSafeArea(.all)
+////                .background(Color.black) // Background of the CustomSheetSwiftUI itself
+//        }
 
     }
 }
