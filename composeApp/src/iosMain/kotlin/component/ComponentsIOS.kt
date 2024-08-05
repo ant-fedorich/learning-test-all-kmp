@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -34,14 +32,49 @@ import platform.objc.sel_registerName
 import kotlinx.cinterop.utf8
 import kotlinx.cinterop.ExperimentalForeignApi
 
-
-/** Wrapper to use in IOS */
-fun createComposeViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
-    KotlinBlockForIOS(showAlert)
+/** Wrapper to use Compose Dialog in IOS */
+fun createComposeForDialogViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
+    KotlinBlockForDialogIOS(showAlert)
 }
 
 @Composable
-fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
+fun KotlinBlockForDialogIOS(onButtonClick: () -> Unit) {
+    var textState by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .background(Color.Magenta)
+            .padding(12.dp)
+    ) {
+        Text(
+            text = "ComposeUI Dialog Block",
+            fontSize = MaterialTheme.typography.h5.fontSize,
+            fontWeight = FontWeight.Bold
+        )
+        Text("This block from kotlin to IOS")
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            value = textState,
+            onValueChange = {
+                textState = it
+            }
+        )
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onButtonClick
+        ) {
+            Text("OK")
+        }
+    }
+}
+/** Wrapper to use Compose Sheet in IOS */
+fun createComposeForSheetViewController(showAlert: () -> Unit): UIViewController = ComposeUIViewController {
+    KotlinBlockForSheetIOS(showAlert)
+}
+
+@Composable
+fun KotlinBlockForSheetIOS(onButtonClick: () -> Unit) {
     var textState by remember { mutableStateOf("") }
 
     Column(
@@ -72,40 +105,35 @@ fun KotlinBlockForIOS(onButtonClick: () -> Unit) {
         }
     }
 }
+
+
+//@Suppress("unused") // Used by Swift via platform channel
+//fun showAlertDialog(title: String, message: String) {
+//    MainViewControllerProxy.shared.showAlert(title, message)
+//}
+
+
 //
-//class KotlinBlockForIOSController: UIHostingController<ComposeView>(rootView: ComposeView(context).apply {
-//    setContent {
-//        KotlinBlockForIOS() // Your Compose function
+//@Suppress("unused") // Used by Swift via platform channel
+//@OptIn(ExperimentalForeignApi::class)
+//fun createAlertDialogForIOS(title: String, message: String): UIViewController {
+//    return ComposeUIViewController {
+//        var showAlert by remember { mutableStateOf(true) } // State to control the alert
+//
+//        if (showAlert) {
+//            AlertDialog(
+//                onDismissRequest = { showAlert = false }, // Dismiss the alert
+//                title = { Text(title) }, // Set the title dynamically
+//                text = { Text(message) }, // Set the message dynamically
+//                confirmButton = {
+//                    Button(onClick = { showAlert = false }) {
+//                        Text("OK")
+//                    }
+//                }
+//            )
+//        }
 //    }
-//})
-
-@Suppress("unused") // Used by Swift via platform channel
-fun showAlertDialog(title: String, message: String) {
-    MainViewControllerProxy.shared.showAlert(title, message)
-}
-
-
-
-@Suppress("unused") // Used by Swift via platform channel
-@OptIn(ExperimentalForeignApi::class)
-fun createAlertDialogForIOS(title: String, message: String): UIViewController {
-    return ComposeUIViewController {
-        var showAlert by remember { mutableStateOf(true) } // State to control the alert
-
-        if (showAlert) {
-            AlertDialog(
-                onDismissRequest = { showAlert = false }, // Dismiss the alert
-                title = { Text(title) }, // Set the title dynamically
-                text = { Text(message) }, // Set the message dynamically
-                confirmButton = {
-                    Button(onClick = { showAlert = false }) {
-                        Text("OK")
-                    }
-                }
-            )
-        }
-    }
-}
+//}
 
 
 object MainViewControllerProxy {
@@ -152,23 +180,23 @@ interface MainViewControllerProxyInterface {
 //        )
 //    }
 //}
-
-@OptIn(ExperimentalForeignApi::class)
-fun uiAlertController(): UIAlertController {
-    val alertController = UIAlertController()
-    alertController.message = "Alert"
-    alertController.title = "This is an alert dialog with Compose content."
-
-// Set preferredStyle using Objective-C runtime
-    val preferredStyleKey = NSStringFromSelector(sel_registerName("preferredStyle"))
-    objc_setAssociatedObject(
-        alertController,
-        preferredStyleKey.utf8,
-        NSNumber.numberWithLong(UIAlertControllerStyleAlert.toLong()),
-        OBJC_ASSOCIATION_RETAIN_NONATOMIC
-    )
-    return alertController
-}
+//
+//@OptIn(ExperimentalForeignApi::class)
+//fun uiAlertController(): UIAlertController {
+//    val alertController = UIAlertController()
+//    alertController.message = "Alert"
+//    alertController.title = "This is an alert dialog with Compose content."
+//
+//// Set preferredStyle using Objective-C runtime
+//    val preferredStyleKey = NSStringFromSelector(sel_registerName("preferredStyle"))
+//    objc_setAssociatedObject(
+//        alertController,
+//        preferredStyleKey.utf8,
+//        NSNumber.numberWithLong(UIAlertControllerStyleAlert.toLong()),
+//        OBJC_ASSOCIATION_RETAIN_NONATOMIC
+//    )
+//    return alertController
+//}
 
 // Usage example
 //val alertController = UIAlertController(

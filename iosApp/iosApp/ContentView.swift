@@ -38,8 +38,9 @@ struct ContentView: View {
             .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
 
             VStack {
-              CustomDialog(showDialog: $showDialog)
+                CustomDialogComposeUI(showDialog: $showDialog)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+//              CustomDialogSwiftUI(showDialog: $showDialog)
 //                Spacer()
             }
 

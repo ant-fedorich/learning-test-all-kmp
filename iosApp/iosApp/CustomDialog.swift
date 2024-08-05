@@ -1,8 +1,9 @@
 import Foundation
 import SwiftUI
+import ComposeApp
 
 
-struct CustomDialog: View {
+struct CustomDialogSwiftUI: View {
     @Binding var showDialog: Bool
     @State var fieldText = ""
     @FocusState var isFocused
@@ -41,6 +42,57 @@ struct CustomDialog: View {
                   }
               }
               .padding()
+              .background(Color.white)
+              .cornerRadius(10)
+              .shadow(radius: 5)
+            Spacer()
+          }
+          .padding(.horizontal, 12)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+      }
+    }
+  }
+}
+
+
+// SwiftUI for ComposeUI Representable
+struct ComposeForDialogView: UIViewControllerRepresentable {
+    var onButtonClick: () -> Void
+    func makeUIViewController(context: Context) -> UIViewController {
+        ComponentsIOSKt.createComposeForDialogViewController {
+            onButtonClick()
+        }
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
+}
+
+struct CustomDialogComposeUI: View {
+    @Binding var showDialog: Bool
+    @State var fieldText = ""
+    @FocusState var isFocused
+
+  var body: some View {
+    GeometryReader { geometry in
+      if showDialog {
+        ZStack {
+            Color.black.opacity(showDialog ? 0.5 : 0).ignoresSafeArea(.all, edges: .all)
+            .onTapGesture {
+                withAnimation {
+                    showDialog = false
+                }
+            }
+          VStack {
+            Spacer()
+              VStack {
+                  ComposeForDialogView() {
+                      withAnimation {
+                          showDialog = false
+                      }
+                  }
+              }
+              .frame(height: 160)
               .background(Color.white)
               .cornerRadius(10)
               .shadow(radius: 5)
