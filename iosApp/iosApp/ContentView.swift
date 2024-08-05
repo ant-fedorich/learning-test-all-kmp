@@ -1,33 +1,51 @@
 import UIKit
 import SwiftUI
-import Combine // Add this import statement
+import Combine
 import ComposeApp
-
-// CustomAlert remains the same as your provided code
 
 struct ContentView: View {
     @State var showSheet = false
     @State var showDialog = false
-//    @State private var showDialog = false // New variable for the sheet
-
-    
-    let composeAlertDialogHelper = 100
+    @State var fieldText = ""
 
 
     var body: some View  {
-        VStack {
-            Button("Show Dialog") {
-              showDialog = true
-            }
-            .overlay(
-              CustomDialog(isShowing: $showDialog) {
-                      Text("This is my custom dialog")
-                      Button("Close") {
-                        showDialog = false
-                      }
-                  }
-            )
+        var isIgnoresSafeArea: SafeAreaRegions = if showDialog {
+            .all
+        } else {
+            .container
         }
+        
+        ZStack {
+            VStack {
+              Text("Main Screen").font(.largeTitle)
+                
+              Text("text text text text text text text text text text").font(.largeTitle)
+                
+              TextField("Put text here", text: $fieldText)
+                .font(.title2)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal, 16)
+                
+              Button("Show Dialog") {
+                withAnimation {
+                  showDialog = true
+                }
+              }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(8)
+            .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+
+            VStack {
+              CustomDialog(showDialog: $showDialog)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                Spacer()
+            }
+
+        }
+    }
+}
 
         
 //        ZStack(alignment: .center) {
@@ -102,8 +120,8 @@ struct ContentView: View {
 ////                .background(Color.black) // Background of the CustomSheetSwiftUI itself
 //        }
 
-    }
-}
+//    }
+//}
 
 
 
