@@ -6,6 +6,26 @@ import ComposeApp
 
 
 
+struct MainScreenCompose: View {
+    @State var onButtonClick: () -> Void
+    
+    var body: some View {
+        MainViewControllerCompose(onButtonClick: onButtonClick)
+    }
+}
+
+struct MainViewControllerCompose: UIViewControllerRepresentable {
+    let onButtonClick: () -> Void
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController(onButtonClick: onButtonClick)
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
+}
+
+
+
 // SwiftUI for UIKit Representable
 struct UIKitBlockView: UIViewControllerRepresentable {
     let onButtonClick: () -> Void

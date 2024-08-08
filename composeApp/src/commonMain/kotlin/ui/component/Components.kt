@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -34,7 +33,6 @@ fun SampleBox() {
 }
 
 
-@Preview
 @Composable
 private fun Preview() {
     SampleBox()

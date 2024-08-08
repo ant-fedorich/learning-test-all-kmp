@@ -5,6 +5,19 @@ import androidx.compose.material.Text
 import androidx.compose.ui.window.ComposeUIViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.UIViewController
+import ui.screen.MainScreen
+
+
+@OptIn(ExperimentalForeignApi::class)
+fun MainViewController(
+    onButtonClick: () -> Unit
+): UIViewController {
+    return ComposeUIViewController {
+        MaterialTheme {
+            MainScreen(onButtonClick)
+        }
+    }
+}
 
 /*@OptIn(ExperimentalForeignApi::class)
 fun MainViewController(): UIViewController {
@@ -39,22 +52,11 @@ fun MainViewController(): UIViewController {
 
 
 //
-//@OptIn(ExperimentalForeignApi::class)
-//fun MainViewController(): UIViewController {
-//    return ComposeUIViewController {
-//        MaterialTheme {
-//            var showAlert by remember { mutableStateOf(false) } // State to control the alert
-//
-//            Column {
-////                Text("Title for IOS")
-//                Button(onClick = { showAlert = true }) { // Button to trigger the alert
-//                    Text("Show Alert!!!")
-//                }
-//            }
-//        }
-//    }
-//}
 
+
+/**
+ *
+ */
 fun createAlertDialog(title: String, message: String): UIViewController {
     return ComposeUIViewController {
         AlertDialog(
@@ -70,6 +72,9 @@ fun createAlertDialog(title: String, message: String): UIViewController {
     }
 }
 
+/**
+ *
+ */
 class ComposeAlertDialogHelper {
 //    @ExportForIOS // Make this function accessible to Swift
 
@@ -110,14 +115,6 @@ fun createAlertDialogForIOS(title: String, message: String): UIViewController {
         )
     }
 }*/
-
-
-@OptIn(ExperimentalForeignApi::class)
-fun MainViewController() = ComposeUIViewController {
-    MaterialTheme {
-        Text("Title for IOS")
-    }
-}
 
 
 //@OptIn(ExperimentalForeignApi::class)

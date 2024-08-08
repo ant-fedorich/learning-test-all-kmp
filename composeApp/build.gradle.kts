@@ -70,7 +70,7 @@ kotlin {
         }
 
         iosMain.dependencies {
-
+//            exclude(compose.preview)
         }
 
         commonMain.dependencies {
@@ -79,8 +79,11 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
+//            implementation(compose.preview)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+//            implementation(compose.preview)
+//            implementation(compose.components.uiToolingPreview)
+//            implementation(compose.components.uiToolingPreview)
         }
 
 //        val wasmJsMain by getting

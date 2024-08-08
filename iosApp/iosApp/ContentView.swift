@@ -7,7 +7,7 @@ struct ContentView: View {
     @State var showSheet = false
     @State var showDialog = false
     @State var fieldText = ""
-
+    
 
     var body: some View  {
         var isIgnoresSafeArea: SafeAreaRegions = if showDialog {
@@ -15,27 +15,33 @@ struct ContentView: View {
         } else {
             .container
         }
+
+
         
         ZStack {
             VStack {
-              Text("Main Screen").font(.largeTitle)
-                
-              Text("text text text text text text text text text text").font(.largeTitle)
-                
-              TextField("Put text here", text: $fieldText)
-                .font(.title2)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal, 16)
-                
-              Button("Show Dialog") {
-                withAnimation {
-                  showDialog = true
+                MainScreenCompose {
+                    showDialog = true
                 }
-              }
+                
+//              Text("Main Screen").font(.largeTitle)
+//                
+//              Text("text text text text text").font(.largeTitle)
+//                
+//              TextField("Put text here", text: $fieldText)
+//                .font(.title2)
+//                .textFieldStyle(.roundedBorder)
+//                .padding(.horizontal, 16)
+//                
+//              Button("Show Dialog") {
+//                withAnimation {
+//                  showDialog = true
+//                }
+//              }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(8)
-            .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+//            .padding(8)
+            .ignoresSafeArea(.all, edges: .all)
 
             VStack {
                 CustomDialogComposeUI(showDialog: $showDialog)
@@ -46,7 +52,32 @@ struct ContentView: View {
 
         }
     }
+    
+//    func addMainScreenSwift() -> any View {
+//        return VStack {
+//          Text("Main Screen").font(.largeTitle)
+//            
+//          Text("text text text text text").font(.largeTitle)
+//            
+//          TextField("Put text here", text: $fieldText)
+//            .font(.title2)
+//            .textFieldStyle(.roundedBorder)
+//            .padding(.horizontal, 16)
+//            
+//          Button("Show Dialog") {
+//            withAnimation {
+//              showDialog = true
+//            }
+//          }
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .padding(8)
+//        .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+//    }
 }
+
+
+
 
         
 //        ZStack(alignment: .center) {
