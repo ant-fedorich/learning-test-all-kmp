@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -31,15 +35,15 @@ fun MainScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+//            .imePadding()
 //            .background(Color(0xFFFFE8EE))
-            .padding(16.dp)
-            .padding(top = 34.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(AbsoluteRoundedCornerShape(16.dp))
-                .background(Color.White)
+                .background(Color.Magenta)
+                .systemBarsPadding()
+//                .clip(AbsoluteRoundedCornerShape(16.dp))
                 .padding(16.dp)
         ) {
             Text(

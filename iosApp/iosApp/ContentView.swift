@@ -4,28 +4,56 @@ import Combine
 import ComposeApp
 
 struct ContentView: View {
+    @State var stateToUpdate = "11111"
     @State var showSheet = false
     @State var showDialog = false
     @State var fieldText = ""
     
 
     var body: some View  {
-        var isIgnoresSafeArea: SafeAreaRegions = if showDialog {
+        let isIgnoresSafeArea: SafeAreaRegions = if showDialog {
             .all
         } else {
             .container
         }
+        
+        let isNotFixWidthFrame: CGFloat = if showDialog {
+            .infinity
+        } else {
+            393
+        }
+        
+        let isNotFixHeightFrame: CGFloat = if showDialog {
+            .infinity
+        } else {
+            852
+        }
+        
+//            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+        
 
 
         
         ZStack {
             VStack {
+//                Text("Title").font(.largeTitle)
+
+                
                 MainScreenCompose {
                     showDialog = true
                 }
+//                .ignoresSafeArea(.all, edges: .all)
+//                .ignoresSafeArea()
+//                .ignoresSafeArea(.container)
+//                .frame(width: 393, height: 852)
+//                .background(Color.yellow)
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
                 
 //              Text("Main Screen").font(.largeTitle)
-//                
+////                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    .background(Color.blue)
+//
 //              Text("text text text text text").font(.largeTitle)
 //                
 //              TextField("Put text here", text: $fieldText)
@@ -38,16 +66,17 @@ struct ContentView: View {
 //                  showDialog = true
 //                }
 //              }
+//              .buttonStyle(BorderedButtonStyle())
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//            .padding(8)
-            .ignoresSafeArea(.all, edges: .all)
+//            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+//            .frame(maxWidth: isNotFixWidthFrame, maxHeight: isNotFixHeightFrame)
+            .frame(width: 393, height: 852)
+            .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+            .background(Color.orange)
 
             VStack {
                 CustomDialogComposeUI(showDialog: $showDialog)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-//              CustomDialogSwiftUI(showDialog: $showDialog)
-//                Spacer()
             }
 
         }
@@ -74,10 +103,14 @@ struct ContentView: View {
 //        .padding(8)
 //        .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
 //    }
+    
+    
 }
 
 
-
+#Preview {
+    ContentView()
+}
 
         
 //        ZStack(alignment: .center) {
@@ -309,3 +342,45 @@ struct ContentViewForHostingController: View {
 
     }
 }
+
+
+
+//
+//
+//struct ContentView: View {
+//    @State var stateToUpdate = "11111"
+//    @State var showSheet = false
+//    @State var showDialog = false
+//    @State var fieldText = ""
+//    
+//
+//    var body: some View  {
+//        let isIgnoresSafeArea: SafeAreaRegions = if showDialog {
+//            .all
+//        } else {
+//            .container
+//        }
+//        
+//
+//
+//        
+//        ZStack {
+//            VStack {
+//                MainScreenCompose {
+//                    showDialog = true
+//                }
+////                .ignoresSafeArea(.container)
+////                .frame(width: 393, height: 852)
+//            }
+//            .frame(maxWidth: 393, maxHeight: 852)
+//            .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+////            .background(Color.orange)
+//
+//            VStack {
+//                CustomDialogComposeUI(showDialog: $showDialog)
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//            }
+//
+//        }
+//    }
+//}
