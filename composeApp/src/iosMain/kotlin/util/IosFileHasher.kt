@@ -1,6 +1,5 @@
-package com.ttypic.filehasher
+package util
 
-import com.ttypic.objclibs.kcrypto.KCrypto
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
@@ -9,6 +8,7 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.usePinned
 import platform.Foundation.*
 import platform.posix.memcpy
+import org.test.testkmp.objclib.kcrypto.KCrypto
 
 actual object FileHasherFactory {
     actual fun createMd5Hasher(): FileHasher = FileMd5Hasher

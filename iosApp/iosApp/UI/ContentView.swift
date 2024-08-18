@@ -3,110 +3,192 @@ import SwiftUI
 import Combine
 import ComposeApp
 
+
 struct ContentView: View {
     @State var stateToUpdate = "11111"
     @State var showSheet = false
     @State var showDialog = false
     @State var fieldText = ""
+    var height: CGFloat = 0
+    var width: CGFloat = 0
+    
+    func printScreenDimensions(geometry: GeometryProxy) {
+        print("Screen: width: \(geometry.size.width), height: \(geometry.size.height)")
+    }
     
 
     var body: some View  {
-        let isIgnoresSafeArea: SafeAreaRegions = if showDialog {
-            .all
-        } else {
-            .container
-        }
-        
-        let isNotFixWidthFrame: CGFloat = if showDialog {
-            .infinity
-        } else {
-            393
-        }
-        
-        let isNotFixHeightFrame: CGFloat = if showDialog {
-            .infinity
-        } else {
-            852
-        }
-        
-//            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
-        
-
-
-        
-        ZStack {
-            VStack {
-//                Text("Title").font(.largeTitle)
-
-                
-                MainScreenCompose {
-                    showDialog = true
+        GeometryReader { geometry in
+            Text("Screen: width: \(geometry.size.width), height: \(geometry.size.height)").zIndex(1.0)
+            
+            let isIgnoresSafeArea: SafeAreaRegions = if showDialog {
+                .all
+            } else {
+                .container
+            }
+            
+            let isNotFixWidthFrame: CGFloat = if showDialog {
+                .infinity
+            } else {
+                //width =
+                393//.infinity//414//geometry.size.width//393
+            }
+            
+            let isNotFixHeightFrame: CGFloat = if showDialog {
+                .infinity
+            } else {
+                852//.infinity//814//geometry.size.height//852
+            }
+            
+            //            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+            
+            
+            
+            
+            ZStack {
+                VStack {
+                    //                Text("Title").font(.largeTitle)
+                    
+                    MainScreenCompose {
+                        showDialog = true
+                    }
                 }
-//                .ignoresSafeArea(.all, edges: .all)
-//                .ignoresSafeArea()
-//                .ignoresSafeArea(.container)
-//                .frame(width: 393, height: 852)
-//                .background(Color.yellow)
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                //            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+                //            .frame(maxWidth: isNotFixWidthFrame, maxHeight: isNotFixHeightFrame)
+                .frame(width: geometry.size.width, height: geometry.size.height + 100)
+                .ignoresSafeArea(.container, edges: .all)
+//                .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+                .background(Color.orange)
                 
+                VStack {
+                    CustomDialogComposeUI(showDialog: $showDialog)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
                 
-//              Text("Main Screen").font(.largeTitle)
-////                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                    .background(Color.blue)
-//
-//              Text("text text text text text").font(.largeTitle)
-//                
-//              TextField("Put text here", text: $fieldText)
-//                .font(.title2)
-//                .textFieldStyle(.roundedBorder)
-//                .padding(.horizontal, 16)
-//                
-//              Button("Show Dialog") {
-//                withAnimation {
-//                  showDialog = true
-//                }
-//              }
-//              .buttonStyle(BorderedButtonStyle())
             }
-//            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
-//            .frame(maxWidth: isNotFixWidthFrame, maxHeight: isNotFixHeightFrame)
-            .frame(width: 393, height: 852)
-            .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
-            .background(Color.orange)
-
-            VStack {
-                CustomDialogComposeUI(showDialog: $showDialog)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-
         }
     }
-    
-//    func addMainScreenSwift() -> any View {
-//        return VStack {
-//          Text("Main Screen").font(.largeTitle)
-//            
-//          Text("text text text text text").font(.largeTitle)
-//            
-//          TextField("Put text here", text: $fieldText)
-//            .font(.title2)
-//            .textFieldStyle(.roundedBorder)
-//            .padding(.horizontal, 16)
-//            
-//          Button("Show Dialog") {
-//            withAnimation {
-//              showDialog = true
-//            }
-//          }
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .padding(8)
-//        .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
-//    }
-    
-    
 }
 
+/// Old code for ContentView
+
+//struct ContentView: View {
+//    @State var stateToUpdate = "11111"
+//    @State var showSheet = false
+//    @State var showDialog = false
+//    @State var fieldText = ""
+//    var height: CGFloat = 0
+//    var width: CGFloat = 0
+//    
+//    func printScreenDimensions(geometry: GeometryProxy) {
+//        print("Screen: width: \(geometry.size.width), height: \(geometry.size.height)")
+//    }
+//    
+//
+//    var body: some View  {
+//        GeometryReader { geometry in
+//            //print("Screen: width: \(geometry.size.width), height: \(geometry.size.height)")
+//            
+//            //Text("Screen: width: \(geometry.size.width), height: \(geometry.size.height)").zIndex(1.0)
+//            
+//            let isIgnoresSafeArea: SafeAreaRegions = if showDialog {
+//                .all
+//            } else {
+//                .container
+//            }
+//            
+//            let isNotFixWidthFrame: CGFloat = if showDialog {
+//                .infinity
+//            } else {
+//                //width =
+//                .infinity//414//geometry.size.width//393
+//            }
+//            
+//            let isNotFixHeightFrame: CGFloat = if showDialog {
+//                .infinity
+//            } else {
+//                .infinity//814//geometry.size.height//852
+//            }
+//            
+//            //            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+//            
+//            
+//            
+//            
+//            ZStack {
+//                VStack {
+//                    //                Text("Title").font(.largeTitle)
+//                    
+//                    
+//                    MainScreenCompose {
+//                        showDialog = true
+//                    }
+//                    //                .ignoresSafeArea(.all, edges: .all)
+//                    //                .ignoresSafeArea()
+//                    //                .ignoresSafeArea(.container)
+//                    //                .frame(width: 393, height: 852)
+//                    //                .background(Color.yellow)
+//                    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    
+//                    
+//                    //              Text("Main Screen").font(.largeTitle)
+//                    ////                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    //                    .background(Color.blue)
+//                    //
+//                    //              Text("text text text text text").font(.largeTitle)
+//                    //
+//                    //              TextField("Put text here", text: $fieldText)
+//                    //                .font(.title2)
+//                    //                .textFieldStyle(.roundedBorder)
+//                    //                .padding(.horizontal, 16)
+//                    //
+//                    //              Button("Show Dialog") {
+//                    //                withAnimation {
+//                    //                  showDialog = true
+//                    //                }
+//                    //              }
+//                    //              .buttonStyle(BorderedButtonStyle())
+//                }
+//                //            .frame(maxWidth: showDialog ? .infinity : 393, maxHeight: showDialog ? .infinity : 852)
+//                //            .frame(maxWidth: isNotFixWidthFrame, maxHeight: isNotFixHeightFrame)
+//                .frame(width: geometry.size.width, height: geometry.size.height + 100)
+//                .ignoresSafeArea(.all, edges: .all)
+//                //.ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+//                .background(Color.orange)
+//                
+//                VStack {
+//                    CustomDialogComposeUI(showDialog: $showDialog)
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                }
+//                
+//            }
+//        }
+//    }
+//    
+////    func addMainScreenSwift() -> any View {
+////        return VStack {
+////          Text("Main Screen").font(.largeTitle)
+////
+////          Text("text text text text text").font(.largeTitle)
+////
+////          TextField("Put text here", text: $fieldText)
+////            .font(.title2)
+////            .textFieldStyle(.roundedBorder)
+////            .padding(.horizontal, 16)
+////
+////          Button("Show Dialog") {
+////            withAnimation {
+////              showDialog = true
+////            }
+////          }
+////        }
+////        .frame(maxWidth: .infinity, maxHeight: .infinity)
+////        .padding(8)
+////        .ignoresSafeArea(isIgnoresSafeArea, edges: .all)
+////    }
+//    
+//    
+//}
 
 #Preview {
     ContentView()
